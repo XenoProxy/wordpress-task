@@ -79,7 +79,17 @@ $table_prefix = 'wp_';
  *
  * @link https://developer.wordpress.org/advanced-administration/debug/debug-wordpress/
  */
-define( 'WP_DEBUG', false);
+define( 'WP_DEBUG_LOG', true );
+define( 'WP_DEBUG_DISPLAY', false );
+
+// Изменяем интервал автоматического сохранения записей и страниц.
+define('AUTOSAVE_INTERVAL', 240);  // 240 секунд
+// Интервал очистки корзины.
+define( 'EMPTY_TRASH_DAYS', 5 ); // 5 дней
+// Увеличиваем размер памяти доступный WordPress
+define('WP_MEMORY_LIMIT', '256M'); //256 мегабайт
+//установка плагинов из админки без FTP
+define('FS_METHOD', 'direct'); 
 
 
 /** Absolute path to the WordPress directory. */
