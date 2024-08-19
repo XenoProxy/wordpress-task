@@ -4,6 +4,6 @@
 	<h1><?php the_title(); ?></h1>
 </div>
 
-<div><? echo get_the_content(); ?></div>
+<div><?php the_content(); ?></div>
 
 <?php get_footer(); ?>
