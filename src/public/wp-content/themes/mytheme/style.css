@@ -4,3 +4,8 @@ Author: Misiuchenko Iryna
 Description: The theme for the 4th task
 Version: 1.0
 */
+
+#blogtitle {
+    font-size: 20px;
+    font-style: italic;
+}
