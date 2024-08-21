@@ -1,20 +1,18 @@
 <?php
 
-function register_my_menus() {
-  register_nav_menu('header-menu',__( 'Header Menu' ));
-}
-
-wp_nav_menu([
-  'theme_location'  => 'header_menu'
-]);
- 
 function theme_add_bootstrap() {
-  wp_enqueue_style( 'bootstrap-cdn-css', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css' );
-  wp_enqueue_script( 'bootstrap-cdn-js', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js' );
-  wp_enqueue_style( 'style-css', get_template_directory_uri() . '/style.css' );
+	wp_enqueue_style( 'bootstrap-cdn-css', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css' );
+	wp_enqueue_script( 'bootstrap-cdn-js', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js' );
+	wp_enqueue_style( 'style-css', get_template_directory_uri() . '/style.css' );
 }
 
 add_action( 'wp_enqueue_scripts', 'theme_add_bootstrap' );
+
+add_action( 'after_setup_theme', 'register_my_menu' );
+
+function register_my_menu() {
+  register_nav_menu('header_menu', 'Header Menu');
+}
 
 add_action( 'init', 'register_post_type_init' );
 
@@ -65,5 +63,3 @@ function register_post_type_init() {
 		'query_var'           => true, // Устанавливает название параметра запроса для создаваемого типа записи. False, чтобы убрать возможность запросов
 	] );
 }
-  
-

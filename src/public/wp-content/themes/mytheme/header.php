@@ -9,6 +9,7 @@
         <?php wp_head(); ?>
     </head>
     <body>
-        <header class="site-header">     
+        <header class="site-header">    
+            <?php wp_nav_menu(['theme_location'  => 'header_menu']); ?> 
             <div class="blogtitle"><?php bloginfo ('name'); ?></div>
         </header>
