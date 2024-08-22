@@ -11,6 +11,7 @@ Version: 1.0
 }
 
 .product-row {
+  margin: 20px;
   display: flex;
   flex-flow: row wrap;
 }
