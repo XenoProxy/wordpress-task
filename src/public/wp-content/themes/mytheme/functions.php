@@ -70,9 +70,9 @@ function register_post_type_init()
 add_action('pre_get_posts', 'hwl_home_pagesize', 1);
 function hwl_home_pagesize($query)
 {
-
-	if (is_admin() || ! $query->is_main_query())
+	if (is_admin() || ! $query->is_main_query()){
 		return;
+	}		
 
 	if ($query->is_post_type_archive('product')) {
 		$query->set('posts_per_page', 8);
