@@ -5,6 +5,7 @@
 </div>
 
 <img src="<?php echo get_field('image'); ?>" alt="<?php echo $image['alt']; ?>" />
+<div><?php echo get_field('price'); ?></div>   
 <div><?php the_content(); ?></div>
 
 <?php get_footer(); ?>

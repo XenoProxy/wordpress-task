@@ -1,6 +1,4 @@
-<?php
-    get_header(); 
-?>
+<?php get_header(); ?>
 
 <?php get_template_part( 'content', 'archive-product' ); ?>
 
@@ -16,12 +14,10 @@
     <?php endwhile;	endif; ?>
     <?php wp_reset_query(); ?>
 
+    <?php the_posts_pagination( array(
+        'mid_size' => 2,
+        'end_size' => 2,
+    ) ); ?>
 </div>
-
-<?php
-the_posts_pagination( array(
-	'mid_size' => 2,
-) );
-?>
 
 <?php get_footer(); ?>
