@@ -61,8 +61,31 @@ function register_post_type_init()
 			'custom-fields',
 			'comments',
 		],
-		'has_archive'         => false, // Включить поддержку страниц архивов для этого типа записей
+		'has_archive'         => true, // Включить поддержку страниц архивов для этого типа записей
 		'rewrite'             => true, // Использовать ли ЧПУ для этого типа записи
 		'query_var'           => true, // Устанавливает название параметра запроса для создаваемого типа записи. False, чтобы убрать возможность запросов
 	]);
+}
+
+add_action('pre_get_posts', 'hwl_home_pagesize', 1);
+function hwl_home_pagesize($query)
+{
+	if (is_admin() || ! $query->is_main_query()){
+		return;
+	}		
+
+	if ($query->is_post_type_archive('product')) {
+		$query->set('posts_per_page', 8);
+	}
+}
+
+/* Удаляем H2 из пагинации */
+add_filter('navigation_markup_template', 'my_navigation_template', 10, 2);
+function my_navigation_template($template, $class)
+{
+	return '
+	<nav class="%1$s" role="navigation">
+	<div class="nav-links">%3$s</div>
+	</nav>    
+	';
 }

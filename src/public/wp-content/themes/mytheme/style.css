@@ -6,6 +6,21 @@ Version: 1.0
 */
 
 .blogtitle {
-    font-size: 20px;
-    font-style: italic;
+  font-size: 20px;
+  font-style: italic;
+}
+
+.product-row {
+  margin: 20px;
+  display: flex;
+  flex-flow: row wrap;
+}
+
+article {
+  width: 33%;
+  display: block;
+  flex: 1 1 auto;
+  position: relative;
+  width: 25%;
+  margin-bottom: 20px;
 }
