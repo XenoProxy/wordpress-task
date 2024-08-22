@@ -11,6 +11,7 @@
 
     <button type="button" class="btn btn-danger">Trash</button>
 
+    <?php comments_template(); ?>
 </div>
 
 
