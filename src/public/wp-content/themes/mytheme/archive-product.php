@@ -6,7 +6,7 @@
     <?php if (have_posts()): while (have_posts()): the_post(); ?>
             <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
                 <h2><?php the_title(); ?></h2>
-                <img src="<?php echo get_field('image'); ?>" alt="<?php echo $image['alt']; ?>" />
+                <?php the_post_thumbnail(); ?>
                 <div><?php echo get_field('price'); ?>$</div>
                 <div><?php the_excerpt(); ?></div>
                 <a class="btn btn-success" href="<?php the_permalink(); ?>">Buy</a>
