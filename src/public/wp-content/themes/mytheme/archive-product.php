@@ -5,7 +5,13 @@
 
 <?php get_template_part( 'content', 'archive-product' ); ?>
 
-<h2><?php the_archive_title(); ?></h2>
+<?php
+$args = array(
+	'post_type' => 'product',
+	'posts_per_archive_page' => 4
+);
+query_posts( $args );
+?>
 
 <div id="container">
 
@@ -16,27 +22,8 @@
         <div><?php the_excerpt(); ?></div>    
         <a href="<?php the_permalink(); ?>" >Buy</a>
     <?php endwhile;	endif; ?>
+    <?php wp_reset_query(); ?>
 
 </div>
-
-<nav aria-label="Постраничная навигация">
-    <ul class="pagination">
-        <li class="page-item disabled">
-            <span class="page-link">Предыдущая</span>
-        </li>
-        <li class="page-item">
-            <a class="page-link" href="#">1</a>
-        </li>
-        <li class="page-item active">
-            <span class="page-link">2</span>
-        </li>
-        <li class="page-item">
-            <a class="page-link" href="#">3</a>
-        </li>
-        <li class="page-item">
-            <a class="page-link" href="#">Следующая</a>
-        </li>
-    </ul>
-</nav>
 
 <?php get_footer(); ?>
