@@ -4,10 +4,13 @@ function theme_add_bootstrap()
 {
 	wp_enqueue_style('bootstrap-cdn-css', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css');
 	wp_enqueue_script('bootstrap-cdn-js', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js');
-	wp_enqueue_style('style-css', get_template_directory_uri() . '/style.css');
 }
 
 add_action('wp_enqueue_scripts', 'theme_add_bootstrap');
+wp_enqueue_script('jquery');
+
+wp_enqueue_style('style-css', get_template_directory_uri() . '/style.css');
+wp_enqueue_script('cart', get_template_directory_uri() . '/cart.js');
 
 add_action('after_setup_theme', 'register_my_menu');
 
@@ -70,9 +73,9 @@ function register_post_type_init()
 add_action('pre_get_posts', 'hwl_home_pagesize', 1);
 function hwl_home_pagesize($query)
 {
-	if (is_admin() || ! $query->is_main_query()){
+	if (is_admin() || ! $query->is_main_query()) {
 		return;
-	}		
+	}
 
 	if ($query->is_post_type_archive('product')) {
 		$query->set('posts_per_page', 8);

@@ -9,7 +9,7 @@
     <div>Color: <?php echo get_field('color'); ?></div>   
     <div><?php the_content(); ?></div>
 
-    <button type="button" class="btn btn-danger">Trash</button>
+    <button type="button" class="btn btn-warning" id="prod-cart-btn">To the cart</button>
 
     <?php comments_template(); ?>
 </div>
