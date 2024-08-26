@@ -10,9 +10,23 @@ add_action('wp_enqueue_scripts', 'theme_add_bootstrap');
 wp_enqueue_script('jquery');
 
 wp_enqueue_style('style-css', get_template_directory_uri() . '/style.css');
+// регистрируем и планируем скрипт на вывод
 wp_enqueue_script('cart', get_template_directory_uri() . '/cart.js');
 
 add_action('after_setup_theme', 'register_my_menu');
+
+// добавляем данные к зарегистрированному скрипту
+$data = [
+	'url' => admin_url('admin-ajax.php'),
+	'nonce' => wp_create_nonce('myajax-nonce')
+];
+wp_add_inline_script( 'cart', 'const myajax = ' . wp_json_encode( $data ), 'before' );
+
+// подключаем AJAX обработчики, только когда в этом есть смысл
+if (wp_doing_ajax()) {
+	add_action('wp_ajax_product_to_cart', 'add_cart');
+}
+
 
 function register_my_menu()
 {
@@ -91,4 +105,11 @@ function my_navigation_template($template, $class)
 	<div class="nav-links">%3$s</div>
 	</nav>    
 	';
+}
+
+function add_cart()
+{
+	$product_id = $_POST['product_id'];
+	echo $product_id;
+	wp_die();
 }

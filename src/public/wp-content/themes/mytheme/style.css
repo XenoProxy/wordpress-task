@@ -38,8 +38,19 @@ li.menu-item a{
   text-decoration: none;
 }
 
+.cart-header-container{
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: baseline;
+}
+
+.cart-count{
+  width: 30px;
+  box-sizing: border-box;
+}
+
 .header-cart-btn{
-  margin: 10px 20px;
+  margin: 10px 20px 10px 10px;
   font-size: 18px;
 }
 
