@@ -22,10 +22,8 @@ $data = [
 ];
 wp_add_inline_script( 'cart', 'const myajax = ' . wp_json_encode( $data ), 'before' );
 
-// подключаем AJAX обработчики, только когда в этом есть смысл
-if (wp_doing_ajax()) {
-	add_action('wp_ajax_product_to_cart', 'add_cart');
-}
+add_action('wp_ajax_product_to_cart', 'add_product_to_cart');
+add_action('wp_ajax_get_cart', 'get_cart');
 
 
 function register_my_menu()
@@ -107,9 +105,41 @@ function my_navigation_template($template, $class)
 	';
 }
 
-function add_cart()
+function add_product_to_cart()
 {
-	$product_id = $_POST['product_id'];
-	echo $product_id;
+	// проверяем nonce код, если проверка не пройдена прерываем обработку
+	check_ajax_referer( 'myajax-nonce', 'nonce_code' );
+
+	$product_id = $_POST['product_id'];	
+	$product_name = $_POST['product_name'];
+	$product_price = $_POST['product_price'];
+	$data = [
+		'id' => $product_id,
+		'product_name' => $product_name,
+		'price' => $product_price,
+		'count' => 1
+	];
+	
+	// $cookie_name = "product".$product_id;
+	setcookie('cart', json_encode($data), 0, "/");
+
+	$cookie = json_decode(stripslashes($_COOKIE['cart']), true);
+
+	var_dump($cookie);
+
+	wp_die();
+}
+
+function get_cart()
+{
+	if(isset($_COOKIE['cart'])){
+		$cookie = json_decode(stripslashes($_COOKIE['cart']), true);
+		foreach($cookie as $key => $val){
+			echo $val."\n";
+		}
+	} else {
+		return "Корзина пуста";
+	}
+	
 	wp_die();
 }
