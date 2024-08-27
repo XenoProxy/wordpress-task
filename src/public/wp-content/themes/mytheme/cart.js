@@ -39,7 +39,17 @@ jQuery(document).ready(function ($) {
         nonce: myajax.nonce,
       },
       success: function (response) {
-        $(".product-count").text(response);
+        const products = JSON.parse(response);
+        const html = products.map(
+            (product) =>
+              `<div class="product-cart">` +
+              `<div class="product-cart-name">${product["product_name"]}</div>` +
+              `<div class="product-cart-count">${product["count"]}</div>` +
+              `<div class="product-cart-price">${product["price"]}</div>` +
+              `</div>`
+          )
+          .join("");
+        document.querySelector(".products-cart").innerHTML = html;
       },
     });
   });
@@ -55,7 +65,6 @@ jQuery(document).ready(function ($) {
     },
     success: function (response) {
       $(".cart-count").text(response);
-	  console.log(response);
     },
   });
 });

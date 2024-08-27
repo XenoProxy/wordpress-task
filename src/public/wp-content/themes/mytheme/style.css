@@ -72,3 +72,17 @@ article {
 .container {
   margin: 20px;
 }
+
+.product-cart {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+}
+ 
+.product-cart-name{
+  width: 60%;
+}
+
+.product-cart-count, .product-cart-price{
+  width: 20%;
+}
