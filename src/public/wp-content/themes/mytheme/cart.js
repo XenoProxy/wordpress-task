@@ -22,9 +22,9 @@ jQuery( function( $ ){
 				product_price: $('.product-price').text(),
 				nonce_code : myajax.nonce
 			}, 
-			success: function( data ) {
+			success: function( response ) {
 				alert(`The ${productName} has been added to the cart!`);
-				console.log(data)
+				console.log(response)
 			}
 		});
 	});
@@ -41,6 +41,7 @@ jQuery(document).ready(function($) {
             },
             success: function (response) {
 				$('.product-count').text(response);
+				console.log(response)
             }
         });     
     });
