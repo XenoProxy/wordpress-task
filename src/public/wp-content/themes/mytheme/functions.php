@@ -147,12 +147,10 @@ function get_cart_count()
 	wp_die();
 }
 
-
-//TODО решить проблему с удалением куки
 function remove_from_cart()
 {
 	$product_id = $_POST['product_id'];
-	setcookie("cart-$product_id", '', time() - 7200);
-
+	unset($_COOKIE["cart-$product_id"]);
+	setcookie("cart-$product_id", '', time() - 3600, '/');
 	wp_die();
 }
