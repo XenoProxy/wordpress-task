@@ -73,16 +73,16 @@ article {
   margin: 20px;
 }
 
-.product-cart {
+.product-cart, .products-cart-total {
   display: flex;
   flex-flow: row wrap;
   justify-content: space-between;
 }
  
-.product-cart-name{
+.product-cart-name, .products-total-empty {
   width: 60%;
 }
 
-.product-cart-count, .product-cart-price{
+.product-cart-count, .product-cart-price, .products-total-price, .products-total-count {
   width: 20%;
 }

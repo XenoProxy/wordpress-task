@@ -27,7 +27,11 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="products-cart">
+                    <div class="products-cart"></div>
+                    <div class="products-cart-total">
+                        <div class="products-total-empty"></div>
+                        <div class="products-total-count"></div>
+                        <div class="products-total-price"></div>
                     </div>
                 </div>
                 <div class="modal-footer">
