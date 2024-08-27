@@ -38,15 +38,11 @@ li.menu-item a {
   text-decoration: none;
 }
 
-.cart-header-container {
+.cart-header-container,
+.header-cart {
   display: flex;
   flex-flow: row nowrap;
   align-items: baseline;
-}
-
-.cart-count {
-  width: 30px;
-  box-sizing: border-box;
 }
 
 .header-cart-btn {
@@ -73,16 +69,26 @@ article {
   margin: 20px;
 }
 
-.product-cart, .products-cart-total {
+.product-cart,
+.products-cart-total {
   display: flex;
   flex-flow: row wrap;
   justify-content: space-between;
+  margin: 10px;
 }
- 
-.product-cart-name, .products-total-empty {
+
+.products-cart {
+  border-bottom: 1px solid;
+}
+
+.product-cart-name,
+.products-total {
   width: 60%;
 }
 
-.product-cart-count, .product-cart-price, .products-total-price, .products-total-count {
+.product-cart-count,
+.product-cart-price,
+.products-total-price,
+.products-total-count {
   width: 20%;
 }

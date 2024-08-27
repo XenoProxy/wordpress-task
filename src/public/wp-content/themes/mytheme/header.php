@@ -14,8 +14,10 @@
     <header class="site-header">
         <div class="blogtitle"><?php bloginfo('name'); ?></div>
         <?php wp_nav_menu(['theme_location'  => 'header_menu']); ?>
-        <p class="cart-count">0</p>
-        <button type="button" class="btn btn-warning header-cart-btn" data-bs-toggle="modal" data-bs-target="#cartModal">Cart</button>
+        <div class="header-cart">
+            <p class="cart-count">0</p>
+            <button type="button" class="btn btn-warning header-cart-btn" data-bs-toggle="modal" data-bs-target="#cartModal">Cart</button>
+        </div>
     </header>
 
     <!-- Модальное окно -->
@@ -29,7 +31,7 @@
                 <div class="modal-body">
                     <div class="products-cart"></div>
                     <div class="products-cart-total">
-                        <div class="products-total-empty"></div>
+                        <div class="products-total">Total:</div>
                         <div class="products-total-count"></div>
                         <div class="products-total-price"></div>
                     </div>

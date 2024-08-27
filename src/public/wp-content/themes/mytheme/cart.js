@@ -47,12 +47,12 @@ jQuery(document).ready(function ($) {
           total_count += product["count"];
         });
         const html = products.map(
-			(product) =>
-				`<div class="product-cart">` +
-				`<div class="product-cart-name">${product["product_name"]}</div>` +
-				`<div class="product-cart-count">${product["count"]}</div>` +
-				`<div class="product-cart-price">${product["price"]}</div>` +
-				`</div>`
+		(product) =>
+			`<div class="product-cart">` +
+			`<div class="product-cart-name">${product["product_name"]}</div>` +
+			`<div class="product-cart-count">${product["count"]}</div>` +
+			`<div class="product-cart-price">${product["price"]}</div>` +
+			`</div>`
 		).join("");
         $(".products-total-count").text(total_count);
         $(".products-total-price").text(total_price);
