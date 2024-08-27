@@ -5,44 +5,56 @@
 //     counter++;
 //     $('.cart-count').val(counter);
 // 	console.log(productId);
-//     alert(`The ${productId} has been added to the cart!`); 
-//   }); 
+//     alert(`The ${productId} has been added to the cart!`);
+//   });
 // });
 
-jQuery( function( $ ){
-	var productName = $('.product-title').text();
-	$( '.prod-cart-btn' ).click(function(){
-		$.ajax({
-			url: myajax.url,
-			type: 'POST',
-			data: {
-				action: 'product_to_cart',
-				product_id: $('.product-id').text(),
-				product_name: productName,
-				product_price: $('.product-price').text(),
-				nonce_code : myajax.nonce
-			}, 
-			success: function( response ) {
-				alert(`The ${productName} has been added to the cart!`);
-				console.log(response)
-			}
-		});
-	});
+jQuery(function ($) {
+  var productName = $(".product-title").text();
+  $(".prod-cart-btn").click(function () {
+    $.ajax({
+      url: myajax.url,
+      type: "POST",
+      data: {
+        action: "product_to_cart",
+        product_id: $(".product-id").text(),
+        product_name: productName,
+        product_price: $(".product-price").text(),
+        nonce_code: myajax.nonce,
+      },
+      success: function (response) {
+        alert(`The ${productName} has been added to the cart!`);
+      },
+    });
+  });
 });
 
-jQuery(document).ready(function($) {
-    $( ".header-cart-btn" ).click(function() {
-        $.ajax({
-			url: myajax.url,
-            type: 'POST',
-            data: {
-                action: 'get_cart',
-                nonce: myajax.nonce,
-            },
-            success: function (response) {
-				$('.product-count').text(response);
-				console.log(response)
-            }
-        });     
+jQuery(document).ready(function ($) {
+  $(".header-cart-btn").click(function () {
+    $.ajax({
+      url: myajax.url,
+      type: "POST",
+      data: {
+        action: "get_cart",
+        nonce: myajax.nonce,
+      },
+      success: function (response) {
+        $(".product-count").text(response);
+      },
     });
+  });
+});
+
+jQuery(document).ready(function ($) {
+  $.ajax({
+    url: myajax.url,
+    type: "POST",
+    data: {
+      action: "get_cart_count",
+      nonce: myajax.nonce,
+    },
+    success: function (response) {
+      $(".cart-count").text(response);
+    },
+  });
 });

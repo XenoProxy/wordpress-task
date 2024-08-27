@@ -20,10 +20,11 @@ $data = [
 	'url' => admin_url('admin-ajax.php'),
 	'nonce' => wp_create_nonce('myajax-nonce')
 ];
-wp_add_inline_script( 'cart', 'const myajax = ' . wp_json_encode( $data ), 'before' );
+wp_add_inline_script('cart', 'const myajax = ' . wp_json_encode($data), 'before');
 
 add_action('wp_ajax_product_to_cart', 'add_product_to_cart');
 add_action('wp_ajax_get_cart', 'get_cart');
+add_action('wp_ajax_get_cart_count', 'get_cart_count');
 
 
 function register_my_menu()
@@ -108,7 +109,7 @@ function my_navigation_template($template, $class)
 function add_product_to_cart()
 {
 	// проверяем nonce код, если проверка не пройдена прерываем обработку
-	check_ajax_referer( 'myajax-nonce', 'nonce_code' );
+	check_ajax_referer('myajax-nonce', 'nonce_code');
 
 	$product_id = $_POST['product_id'];
 	$data = [
@@ -118,19 +119,29 @@ function add_product_to_cart()
 	];
 
 	setcookie("cart-$product_id", json_encode($data), 0, "/");
-
 	wp_die();
 }
 
 function get_cart()
 {
-	foreach($_COOKIE as $cookie_name => $cookie_val)
-    {
-    	if(preg_match("/cart/", $cookie_name)){
+	foreach ($_COOKIE as $cookie_name => $cookie_val) {
+
+		if (preg_match("/cart/", $cookie_name)) {
 			$cookie = json_decode(stripslashes($cookie_val), true);
-			echo $cookie['product_name']." ".$cookie['price']." ".$cookie['count'];
-		} 		
+			echo $cookie['product_name'] . " " . $cookie['price'] . " " . $cookie['count'];
+		}
 	}
-	
+	wp_die();
+}
+
+function get_cart_count()
+{
+	foreach ($_COOKIE as $cookie_name => $cookie_val) {
+
+		if (preg_match("/cart/", $cookie_name)) {
+			$cookie_count = count(json_decode(stripslashes($cookie_val), true));
+		}
+	}
+	echo $cookie_count;
 	wp_die();
 }

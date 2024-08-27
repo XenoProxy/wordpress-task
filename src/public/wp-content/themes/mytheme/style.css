@@ -5,7 +5,7 @@ Description: The theme for the 4th task
 Version: 1.0
 */
 
-.site-header{
+.site-header {
   display: flex;
   flex-flow: row nowrap;
   width: 100%;
@@ -20,36 +20,36 @@ Version: 1.0
   margin-left: 20px;
 }
 
-.menu-header-menu-container{
+.menu-header-menu-container {
   width: 100%;
 }
 
-#menu-header-menu{
+#menu-header-menu {
   list-style: none;
 }
 
-ul.menu li{
+ul.menu li {
   display: inline;
 }
 
-li.menu-item a{
+li.menu-item a {
   font-size: 18px;
   margin-right: 20px;
   text-decoration: none;
 }
 
-.cart-header-container{
+.cart-header-container {
   display: flex;
   flex-flow: row nowrap;
   align-items: baseline;
 }
 
-.cart-count{
+.cart-count {
   width: 30px;
   box-sizing: border-box;
 }
 
-.header-cart-btn{
+.header-cart-btn {
   margin: 10px 20px 10px 10px;
   font-size: 18px;
 }
@@ -69,6 +69,6 @@ article {
   margin-bottom: 20px;
 }
 
-.container{
+.container {
   margin: 20px;
 }
