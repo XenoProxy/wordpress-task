@@ -125,8 +125,7 @@ function add_product_to_cart()
 function get_cart()
 {
 	foreach ($_COOKIE as $cookie_name => $cookie_val) {
-
-		if (preg_match("/cart/", $cookie_name)) {
+		if (preg_match("/cart-/", $cookie_name)) {
 			$cookie = json_decode(stripslashes($cookie_val), true);
 			echo $cookie['product_name'] . " " . $cookie['price'] . " " . $cookie['count'];
 		}
@@ -136,10 +135,10 @@ function get_cart()
 
 function get_cart_count()
 {
+	$cookie_count = 0;
 	foreach ($_COOKIE as $cookie_name => $cookie_val) {
-
-		if (preg_match("/cart/", $cookie_name)) {
-			$cookie_count = count(json_decode(stripslashes($cookie_val), true));
+		if (preg_match("/cart-/", $cookie_name)) {
+			$cookie_count++;
 		}
 	}
 	echo $cookie_count;

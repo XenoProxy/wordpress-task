@@ -55,6 +55,7 @@ jQuery(document).ready(function ($) {
     },
     success: function (response) {
       $(".cart-count").text(response);
+	  console.log(response);
     },
   });
 });
