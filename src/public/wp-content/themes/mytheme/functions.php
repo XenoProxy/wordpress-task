@@ -25,7 +25,7 @@ wp_add_inline_script('cart', 'const myajax = ' . wp_json_encode($data), 'before'
 add_action('wp_ajax_product_to_cart', 'add_product_to_cart');
 add_action('wp_ajax_get_cart', 'get_cart');
 add_action('wp_ajax_get_cart_count', 'get_cart_count');
-
+add_action('wp_ajax_remove_from_cart', 'remove_from_cart');
 
 function register_my_menu()
 {
@@ -113,11 +113,11 @@ function add_product_to_cart()
 
 	$product_id = $_POST['product_id'];
 	$data = [
+		'id' => $product_id,
 		'product_name' => $_POST['product_name'],
 		'price' => $_POST['product_price'],
 		'count' => 1
 	];
-
 	setcookie("cart-$product_id", json_encode($data), 0, "/");
 	wp_die();
 }
@@ -144,5 +144,15 @@ function get_cart_count()
 		}
 	}
 	echo $cookie_count;
+	wp_die();
+}
+
+
+//TODО решить проблему с удалением куки
+function remove_from_cart()
+{
+	$product_id = $_POST['product_id'];
+	setcookie("cart-$product_id", '', time() - 7200);
+
 	wp_die();
 }

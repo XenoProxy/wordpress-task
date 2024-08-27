@@ -22,7 +22,7 @@
 
     <!-- Модальное окно -->
     <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="cartModalLabel">Your cart</h5>
@@ -31,9 +31,10 @@
                 <div class="modal-body">
                     <div class="products-cart"></div>
                     <div class="products-cart-total">
-                        <div class="products-total">Total:</div>
-                        <div class="products-total-count"></div>
-                        <div class="products-total-price"></div>
+                        <div class="products-total"><b>Total:</b></div>
+                        <div class="products-total-count"><b></b></div>
+                        <div class="products-total-price"><b></b></div>
+                        <a class="buy-cart btn btn-success" href="#">Buy</a>
                     </div>
                 </div>
                 <div class="modal-footer">

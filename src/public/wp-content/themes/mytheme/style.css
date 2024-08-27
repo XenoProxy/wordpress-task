@@ -90,5 +90,10 @@ article {
 .product-cart-price,
 .products-total-price,
 .products-total-count {
-  width: 20%;
+  width: 10%;
+}
+
+.remove-from-cart,
+.buy-cart {
+  width: 15%;
 }
