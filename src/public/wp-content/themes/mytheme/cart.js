@@ -51,6 +51,22 @@ jQuery(document).ready(function ($) {
   });
 });
 
+// убрать товар
+jQuery(document).ready(function ($) {
+  $("#cartModal").on("click", ".excess-product", function (e) {
+    $.ajax({
+      url: myajax.url,
+      type: "POST",
+      data: {
+        action: "remove_excess_product",
+        product_id: $(this).val(),
+        nonce: myajax.nonce,
+      },
+      success: function (response) {},
+    });
+  });
+});
+
 // отображение корзины
 jQuery(document).ready(function ($) {
   $(".header-cart-btn").click(function () {

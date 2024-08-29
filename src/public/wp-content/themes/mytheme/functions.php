@@ -27,6 +27,7 @@ add_action('wp_ajax_get_cart', 'get_cart');
 add_action('wp_ajax_get_cart_count', 'get_cart_count');
 add_action('wp_ajax_remove_from_cart', 'remove_from_cart');
 add_action('wp_ajax_add_extra_product', 'add_extra_product');
+add_action('wp_ajax_remove_excess_product', 'remove_excess_product');
 
 function register_my_menu()
 {
@@ -117,6 +118,7 @@ function add_product_to_cart()
 		'id' => $product_id,
 		'product_name' => $_POST['product_name'],
 		'price' => $_POST['product_price'],
+		'origin_price' => $_POST['product_price'],
 		'count' => 1
 	];
 	setcookie("cart-$product_id", json_encode($data), 0, "/");
@@ -168,7 +170,24 @@ function add_extra_product()
 		$new_data[$key] = $val;
 		if ($key == "count") {
 			$new_data["count"]++;
-			$new_data["price"] = $cookie_data["price"] + OLD_PRICE;
+			$new_data["price"] = $cookie_data["price"] + $cookie_data["origin_price"];
+		}
+	}
+	setcookie("cart-$product_id", json_encode($new_data), 0, "/");
+	wp_die();
+}
+
+function remove_excess_product()
+{
+	$product_id = $_POST['product_id'];
+	$cookie = $_COOKIE["cart-$product_id"];
+	$cookie_data = json_decode(stripslashes($cookie), true);
+	$new_data = array();
+	foreach ($cookie_data as $key => $val) {
+		$new_data[$key] = $val;
+		if ($key == "count") {
+			$new_data["count"]--;
+			$new_data["price"] = $cookie_data["price"] - $cookie_data["origin_price"];
 		}
 	}
 	setcookie("cart-$product_id", json_encode($new_data), 0, "/");
