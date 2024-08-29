@@ -185,11 +185,15 @@ function remove_excess_product()
 	$new_data = array();
 	foreach ($cookie_data as $key => $val) {
 		$new_data[$key] = $val;
-		if ($key == "count") {
+		if ($key == "count") {			
 			$new_data["count"]--;
 			$new_data["price"] = $cookie_data["price"] - $cookie_data["origin_price"];
 		}
-	}
+	}	
 	setcookie("cart-$product_id", json_encode($new_data), 0, "/");
+	if($cookie_data["count"] == 1){
+		unset($_COOKIE["cart-$product_id"]);
+		echo setcookie("cart-$product_id", '', time() - 3600, '/');
+	}
 	wp_die();
 }
