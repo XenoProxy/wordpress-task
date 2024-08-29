@@ -35,6 +35,22 @@ jQuery(document).ready(function ($) {
   });
 });
 
+// добавить товар
+jQuery(document).ready(function ($) {
+  $("#cartModal").on("click", ".extra-product", function (e) {
+    $.ajax({
+      url: myajax.url,
+      type: "POST",
+      data: {
+        action: "add_extra_product",
+        product_id: $(this).val(),
+        nonce: myajax.nonce,
+      },
+      success: function (response) {},
+    });
+  });
+});
+
 // отображение корзины
 jQuery(document).ready(function ($) {
   $(".header-cart-btn").click(function () {
@@ -58,7 +74,11 @@ jQuery(document).ready(function ($) {
             (product) =>
               `<div class="product-cart">` +
               `<div class="product-cart-name">${product["product_name"]}</div>` +
+              `<div class="cart-count-container">` +
+              `<button class="excess-product btn btn-info" value="${product["id"]}">-</button>` +
               `<div class="product-cart-count">${product["count"]}</div>` +
+              `<button class="extra-product btn btn-info" value="${product["id"]}">+</button>` +
+              `</div>` +
               `<div class="product-cart-price">${product["price"]}$</div>` +
               `<button class="remove-from-cart btn btn-danger" value="${product["id"]}">Remove</button>` +
               `</div>`
