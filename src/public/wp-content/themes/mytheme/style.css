@@ -5,9 +5,49 @@ Description: The theme for the 4th task
 Version: 1.0
 */
 
+.site-header {
+  display: flex;
+  flex-flow: row nowrap;
+  width: 100%;
+  gap: 30px;
+  align-items: baseline;
+}
+
 .blogtitle {
   font-size: 20px;
   font-style: italic;
+  width: 200px;
+  margin-left: 20px;
+}
+
+.menu-header-menu-container {
+  width: 100%;
+}
+
+#menu-header-menu {
+  list-style: none;
+}
+
+ul.menu li {
+  display: inline;
+}
+
+li.menu-item a {
+  font-size: 18px;
+  margin-right: 20px;
+  text-decoration: none;
+}
+
+.cart-header-container,
+.header-cart {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: baseline;
+}
+
+.header-cart-btn {
+  margin: 10px 20px 10px 10px;
+  font-size: 18px;
 }
 
 .product-row {
@@ -25,6 +65,59 @@ article {
   margin-bottom: 20px;
 }
 
-.container{
+.container {
   margin: 20px;
+}
+
+.product-cart,
+.products-cart-total {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  margin: 10px;
+}
+
+.products-cart {
+  border-bottom: 1px solid;
+}
+
+.product-cart-name {
+  width: 50%;
+}
+
+.products-total{
+  width: 49%;
+}
+
+.product-cart-price,
+.buy-cart {
+  width: 10%;
+}
+
+.extra-product, 
+.excess-product {
+  width: 33%;
+}
+
+.cart-count-container{
+  display: flex;
+  flex-flow: row wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  margin: 0 5px;
+  width: 15%;
+}
+
+.remove-from-cart {
+  width: 15%;
+}
+
+.product-actions {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  margin: 10PX 5px;
+  width: 15%;
 }

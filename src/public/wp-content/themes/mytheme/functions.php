@@ -4,12 +4,31 @@ function theme_add_bootstrap()
 {
 	wp_enqueue_style('bootstrap-cdn-css', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css');
 	wp_enqueue_script('bootstrap-cdn-js', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js');
-	wp_enqueue_style('style-css', get_template_directory_uri() . '/style.css');
 }
 
 add_action('wp_enqueue_scripts', 'theme_add_bootstrap');
+wp_enqueue_script('jquery');
+
+wp_enqueue_style('style-css', get_template_directory_uri() . '/style.css');
+// регистрируем и планируем скрипт на вывод
+wp_enqueue_script('cart', get_template_directory_uri() . '/cart.js');
 
 add_action('after_setup_theme', 'register_my_menu');
+
+// добавляем данные к зарегистрированному скрипту
+$data = [
+	'url' => admin_url('admin-ajax.php'),
+	'nonce' => wp_create_nonce('myajax-nonce')
+];
+wp_add_inline_script('cart', 'const myajax = ' . wp_json_encode($data), 'before');
+
+add_action('wp_ajax_product_to_cart', 'add_product_to_cart');
+add_action('wp_ajax_get_cart', 'get_cart');
+add_action('wp_ajax_get_cart_count', 'get_cart_count');
+add_action('wp_ajax_remove_from_cart', 'remove_from_cart');
+add_action('wp_ajax_add_extra_product', 'add_extra_product');
+add_action('wp_ajax_remove_excess_product', 'remove_excess_product');
+add_action('wp_ajax_check_product', 'check_product');
 
 function register_my_menu()
 {
@@ -70,9 +89,9 @@ function register_post_type_init()
 add_action('pre_get_posts', 'hwl_home_pagesize', 1);
 function hwl_home_pagesize($query)
 {
-	if (is_admin() || ! $query->is_main_query()){
+	if (is_admin() || ! $query->is_main_query()) {
 		return;
-	}		
+	}
 
 	if ($query->is_post_type_archive('product')) {
 		$query->set('posts_per_page', 8);
@@ -88,4 +107,107 @@ function my_navigation_template($template, $class)
 	<div class="nav-links">%3$s</div>
 	</nav>    
 	';
+}
+
+function add_product_to_cart()
+{
+	// проверяем nonce код, если проверка не пройдена прерываем обработку
+	check_ajax_referer('myajax-nonce', 'nonce_code');
+
+	$product_id = $_POST['product_id'];
+	$data = [
+		'id' => $product_id,
+		'product_name' => $_POST['product_name'],
+		'price' => $_POST['product_price'],
+		'origin_price' => $_POST['product_price'],
+		'count' => 1
+	];
+	setcookie("cart-$product_id", json_encode($data), 0, "/");
+	wp_die();
+}
+
+function get_cart()
+{
+	$cookie_arr = [];
+	foreach ($_COOKIE as $cookie_name => $cookie_val) {
+		if (preg_match("/cart-/", $cookie_name)) {
+			$cookies = json_decode(stripslashes($cookie_val), true);
+			$cookie_arr[] = $cookies;
+		}
+	}
+	echo json_encode($cookie_arr);
+	wp_die();
+}
+
+function get_cart_count()
+{
+	$cookie_count = 0;
+	foreach ($_COOKIE as $cookie_name => $val) {
+		if (preg_match("/cart-/", $cookie_name)) {
+			$cookie_data = json_decode(stripslashes($val), true);
+			$cookie_count += $cookie_data["count"];
+		}
+	}
+	echo $cookie_count;
+	wp_die();
+}
+
+function remove_from_cart()
+{
+	$product_id = $_POST['product_id'];
+	unset($_COOKIE["cart-$product_id"]);
+	setcookie("cart-$product_id", '', time() - 3600, '/');
+	wp_die();
+}
+
+function add_extra_product()
+{
+	$product_id = $_POST['product_id'];
+	$cookie = $_COOKIE["cart-$product_id"];
+	$cookie_data = json_decode(stripslashes($cookie), true);
+	define("OLD_PRICE", $cookie_data["price"]);
+	$new_data = array();
+	foreach ($cookie_data as $key => $val) {
+		$new_data[$key] = $val;
+		if ($key == "count") {
+			$new_data["count"]++;
+			$new_data["price"] = $cookie_data["price"] + $cookie_data["origin_price"];
+		}
+	}
+	setcookie("cart-$product_id", json_encode($new_data), 0, "/");
+	wp_die();
+}
+
+function remove_excess_product()
+{
+	$product_id = $_POST['product_id'];
+	$cookie = $_COOKIE["cart-$product_id"];
+	$cookie_data = json_decode(stripslashes($cookie), true);
+	$new_data = array();
+	foreach ($cookie_data as $key => $val) {
+		$new_data[$key] = $val;
+		if ($key == "count") {
+			$new_data["count"]--;
+			$new_data["price"] = $cookie_data["price"] - $cookie_data["origin_price"];
+		}
+	}
+	setcookie("cart-$product_id", json_encode($new_data), 0, "/");
+	if ($cookie_data["count"] == 1) {
+		unset($_COOKIE["cart-$product_id"]);
+		echo setcookie("cart-$product_id", '', time() - 3600, '/');
+	}
+	wp_die();
+}
+
+function check_product()
+{
+	$product_id = $_POST['product_id'];
+	$cookie = $_COOKIE[$product_id];
+	if (isset($cookie)) {
+		$cookie_data = json_decode(stripslashes($cookie), true);
+		echo json_encode($cookie_data);
+	} else {
+		echo 0;
+	}
+	wp_die();
 }
