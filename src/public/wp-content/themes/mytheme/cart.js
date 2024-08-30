@@ -35,7 +35,7 @@ jQuery(document).ready(function ($) {
   });
 });
 
-// добавить товар
+// добавить товар в корзину
 jQuery(document).ready(function ($) {
   $("#cartModal").on("click", ".extra-product", function (e) {
     $.ajax({
@@ -66,6 +66,39 @@ jQuery(document).ready(function ($) {
     });
   });
 });
+
+// добавить товар в корзину (страница товара)
+jQuery(document).ready(function ($) {
+  $(".product-actions").on("click", ".extra-product", function (e) {
+    $.ajax({
+      url: myajax.url,
+      type: "POST",
+      data: {
+        action: "add_extra_product",
+        product_id: $(this).val(),
+        nonce: myajax.nonce,
+      },
+      success: function (response) {},
+    });
+  });
+});
+
+// убрать товар (страница товара)
+jQuery(document).ready(function ($) {
+  $(".product-actions").on("click", ".excess-product", function (e) {
+    $.ajax({
+      url: myajax.url,
+      type: "POST",
+      data: {
+        action: "remove_excess_product",
+        product_id: $(this).val(),
+        nonce: myajax.nonce,
+      },
+      success: function (response) {},
+    });
+  });
+});
+
 
 // отображение корзины
 jQuery(document).ready(function ($) {
@@ -119,6 +152,31 @@ jQuery(document).ready(function ($) {
     },
     success: function (response) {
       $(".cart-count").text(response);
+    },
+  });
+});
+
+// отображение добавления в корзину на странице товара
+jQuery(document).ready(function ($) {
+  $.ajax({
+    url: myajax.url,
+    type: "POST",
+    data: {
+      action: "check_product",
+      product_id: $(".product-id").text(),
+      nonce: myajax.nonce,
+    },
+    success: function (response) {
+      console.log(response);
+      const product = JSON.parse(response);
+      var html = `<button type="button" class="btn btn-warning prod-cart-btn">To the cart</button>`;
+      if (response != 0) {
+        html =
+          `<button class="excess-product btn btn-info" value="${product["id"]}"">-</button>` +
+          `<div class="product-cart-count">${product["count"]}</div>` +
+          `<button class="extra-product btn btn-info" value="${product["id"]}">+</button>`;
+      }
+      document.querySelector(".product-actions").innerHTML = html;
     },
   });
 });

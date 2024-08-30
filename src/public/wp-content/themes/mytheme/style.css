@@ -113,3 +113,11 @@ article {
   width: 15%;
 }
 
+.product-actions {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  margin: 10PX 5px;
+  width: 15%;
+}

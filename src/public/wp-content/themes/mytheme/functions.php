@@ -28,6 +28,7 @@ add_action('wp_ajax_get_cart_count', 'get_cart_count');
 add_action('wp_ajax_remove_from_cart', 'remove_from_cart');
 add_action('wp_ajax_add_extra_product', 'add_extra_product');
 add_action('wp_ajax_remove_excess_product', 'remove_excess_product');
+add_action('wp_ajax_check_product', 'check_product');
 
 function register_my_menu()
 {
@@ -185,15 +186,28 @@ function remove_excess_product()
 	$new_data = array();
 	foreach ($cookie_data as $key => $val) {
 		$new_data[$key] = $val;
-		if ($key == "count") {			
+		if ($key == "count") {
 			$new_data["count"]--;
 			$new_data["price"] = $cookie_data["price"] - $cookie_data["origin_price"];
 		}
-	}	
+	}
 	setcookie("cart-$product_id", json_encode($new_data), 0, "/");
-	if($cookie_data["count"] == 1){
+	if ($cookie_data["count"] == 1) {
 		unset($_COOKIE["cart-$product_id"]);
 		echo setcookie("cart-$product_id", '', time() - 3600, '/');
+	}
+	wp_die();
+}
+
+function check_product()
+{
+	$product_id = $_POST['product_id'];
+	$cookie = $_COOKIE[$product_id];
+	if (isset($cookie)) {
+		$cookie_data = json_decode(stripslashes($cookie), true);
+		echo json_encode($cookie_data);
+	} else {
+		echo 0;
 	}
 	wp_die();
 }
