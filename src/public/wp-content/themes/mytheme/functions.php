@@ -35,9 +35,10 @@ function register_my_menu()
 	register_nav_menu('header_menu', 'Header Menu');
 }
 
-add_action('init', 'register_post_type_init');
+add_action('init', 'register_product_post_type_init');
+add_action('init', 'register_order_post_type_init');
 
-function register_post_type_init()
+function register_product_post_type_init()
 {
 	// оставила комменты с руководства и добавила свои для усвоения и запоминания
 	register_post_type('product', [
@@ -53,24 +54,15 @@ function register_post_type_init()
 			'search_items'       => 'Искать товар', // для поиска по этим типам записи
 			'not_found'          => 'Не найдено', // если в результате поиска ничего не было найдено
 			'not_found_in_trash' => 'Не найдено в корзине', // если не было найдено в корзине\
-			// 'parent_item_colon'  => '', // для родителей (у древовидных типов)
-			// 'menu_name'          => '____', // Название меню. По умолчанию равен name.
+	
 		],
 		'description'         => 'Товары, доступные для заказа',
 		'public'              => true,
-		// 'publicly_queryable'  => null, // зависит от public
-		// 'exclude_from_search' => null, // зависит от public
-		// 'show_ui'             => null, // зависит от public
-		// 'show_in_nav_menus'   => null, // зависит от public
 		'show_in_menu'        => null, // показывать ли в меню админки
-		// 'show_in_admin_bar'   => null, // зависит от show_in_menu
 		'show_in_rest'        => null, // добавить в REST API. C WP 4.7
 		'rest_base'           => null, // $post_type. C WP 4.7
 		'menu_position'       => null, // Позиция где должно расположится меню нового типа записи
 		'menu_icon'           => null, //Ссылка на картинку, которая будет использоваться для этого меню
-		//'capability_type'   => 'post', // Строка которая будет маркером для установки прав для этого типа записи. Встроенные маркеры это: post и page
-		//'capabilities'      => 'post', // массив дополнительных прав для этого типа записи
-		//'map_meta_cap'      => null, // Ставим true чтобы включить дефолтный обработчик специальных прав
 		'hierarchical'        => false,
 		'supports'            => [  // Поля на странице создания/редактирования типа записи
 			'title',
@@ -79,6 +71,42 @@ function register_post_type_init()
 			'thumbnail',
 			'custom-fields',
 			'comments',
+		],
+		'has_archive'         => true, // Включить поддержку страниц архивов для этого типа записей
+		'rewrite'             => true, // Использовать ли ЧПУ для этого типа записи
+		'query_var'           => true, // Устанавливает название параметра запроса для создаваемого типа записи. False, чтобы убрать возможность запросов
+	]);	
+}
+
+function register_order_post_type_init()
+{
+	register_post_type('order', [
+		'label'  => null,
+		'labels' => [
+			'name'               => 'Order', // основное название для типа записи
+			'singular_name'      => 'Заказ', // название для одной записи этого типа
+			'add_new'            => 'Добавить заказ', // для добавления новой записи
+			'add_new_item'       => 'Добавление заказа', // заголовка у вновь создаваемой записи в админ-панели.
+			'edit_item'          => 'Редактирование заказа', // для редактирования типа записи
+			'new_item'           => 'Новый заказ', // текст новой записи
+			'view_item'          => 'Смотреть заказ', // для просмотра записи этого типа.
+			'search_items'       => 'Искать заказ', // для поиска по этим типам записи
+			'not_found'          => 'Не найдено', // если в результате поиска ничего не было найдено
+			'not_found_in_trash' => 'Не найдено в корзине', // если не было найдено в корзине\
+
+		],
+		'description'         => 'Оформленные заказы',
+		'public'              => true,
+		'show_in_menu'        => null, // показывать ли в меню админки
+		'show_in_rest'        => null, // добавить в REST API. C WP 4.7
+		'rest_base'           => null, // $post_type. C WP 4.7
+		'menu_position'       => null, // Позиция где должно расположится меню нового типа записи
+		'menu_icon'           => null, //Ссылка на картинку, которая будет использоваться для этого меню
+		'hierarchical'        => false,
+		'supports'            => [  // Поля на странице создания/редактирования типа записи
+			'fullname',
+			'email',
+			'products'
 		],
 		'has_archive'         => true, // Включить поддержку страниц архивов для этого типа записей
 		'rewrite'             => true, // Использовать ли ЧПУ для этого типа записи
