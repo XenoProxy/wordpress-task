@@ -34,7 +34,7 @@
                         <div class="products-total"><b>Total:</b></div>
                         <div class="products-total-count"><b></b></div>
                         <div class="products-total-price"><b></b></div>
-                        <a class="buy-cart btn btn-success" href="#">Buy</a>
+                        <button class="make-order btn btn-success">Buy</button>
                     </div>
                 </div>
                 <div class="modal-footer">

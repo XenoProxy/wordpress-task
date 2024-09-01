@@ -35,10 +35,9 @@ function register_my_menu()
 	register_nav_menu('header_menu', 'Header Menu');
 }
 
-add_action('init', 'register_product_post_type_init');
-add_action('init', 'register_order_post_type_init');
+add_action('init', 'register_post_type_init');
 
-function register_product_post_type_init()
+function register_post_type_init()
 {
 	// оставила комменты с руководства и добавила свои для усвоения и запоминания
 	register_post_type('product', [
@@ -76,10 +75,7 @@ function register_product_post_type_init()
 		'rewrite'             => true, // Использовать ли ЧПУ для этого типа записи
 		'query_var'           => true, // Устанавливает название параметра запроса для создаваемого типа записи. False, чтобы убрать возможность запросов
 	]);	
-}
 
-function register_order_post_type_init()
-{
 	register_post_type('order', [
 		'label'  => null,
 		'labels' => [
@@ -106,9 +102,9 @@ function register_order_post_type_init()
 		'supports'            => [  // Поля на странице создания/редактирования типа записи
 			'fullname',
 			'email',
-			'products'
+			'product'
 		],
-		'has_archive'         => true, // Включить поддержку страниц архивов для этого типа записей
+		'has_archive'         => false, // Включить поддержку страниц архивов для этого типа записей
 		'rewrite'             => true, // Использовать ли ЧПУ для этого типа записи
 		'query_var'           => true, // Устанавливает название параметра запроса для создаваемого типа записи. False, чтобы убрать возможность запросов
 	]);

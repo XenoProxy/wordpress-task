@@ -180,3 +180,19 @@ jQuery(document).ready(function ($) {
     },
   });
 });
+
+// // оформить заказ
+// jQuery(document).ready(function ($) {
+//   $("#cartModal").on("click", ".make-order", function (e) {
+//     $.ajax({
+//       url: myajax.url,
+//       type: "POST",
+//       data: {
+//         action: "make-order",
+//         product_id: $(this).val(),
+//         nonce: myajax.nonce,
+//       },
+//       success: function (response) {},
+//     });
+//   });
+// });
