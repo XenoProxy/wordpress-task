@@ -31,6 +31,7 @@
         <div class="modal-body">
           <div class="products-cart"></div>
           <div class="products-cart-total">
+            <div hidden class="product-total-id"></div>`
             <div class="products-total"><b>Total:</b></div>
             <div class="products-total-count"><b></b></div>
             <div class="products-total-price"><b></b></div>

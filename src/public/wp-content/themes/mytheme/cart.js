@@ -114,9 +114,11 @@ jQuery(document).ready(function ($) {
         const products = JSON.parse(response);
         var total_price = 0;
         var total_count = 0;
+        var product_ids = [];
         products.forEach((product) => {
           total_price += Number(product["price"]);
           total_count += product["count"];
+          product_ids.push(product["id"]);
         });
         const html = products
           .map(
@@ -133,6 +135,8 @@ jQuery(document).ready(function ($) {
               `</div>`
           )
           .join("");
+        var total_product_id = product_ids.toString()
+        $(".product-total-id").text(total_product_id);
         $(".products-total-count>b").text(total_count);
         $(".products-total-price>b").text(total_price + "$");
         document.querySelector(".products-cart").innerHTML = html;
@@ -190,6 +194,7 @@ jQuery(document).ready(function ($) {
         action: "make_order",
         fullname: $("#fullname").val(),
         email: $("#email").val(),
+        products: $(".product-total-id").text(),
         nonce: myajax.nonce,
       },
       success: function (response) {

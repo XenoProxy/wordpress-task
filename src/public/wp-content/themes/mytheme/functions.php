@@ -103,7 +103,7 @@ function register_post_type_init()
     'supports'            => [  // Поля на странице создания/редактирования типа записи
       'fullname',
       'email',
-      'product'
+      'products'
     ],
     'has_archive'         => true, // Включить поддержку страниц архивов для этого типа записей
     'rewrite'             => true, // Использовать ли ЧПУ для этого типа записи
@@ -241,6 +241,9 @@ function make_order()
 {
   $fullname = $_POST['fullname'];
   $email = $_POST['email'];
+  $products_str = $_POST['products'];
+
+  $products = explode(",", $products_str);
 
   $order_data = array(
     'post_title'    => 'New Order',
@@ -260,8 +263,9 @@ function make_order()
 
   update_field('fullname', $fullname, $order_id);
   update_field('email', $email, $order_id);
+  update_field('products', $products, $order_id);
 
   echo $order_id;
-  
+
   wp_die();
 }
