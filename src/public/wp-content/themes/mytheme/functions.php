@@ -44,18 +44,18 @@ function register_post_type_init()
 		'label'  => null,
 		'labels' => [
 			'name'               => 'Product', // основное название для типа записи
-			'singular_name'      => 'Товар', // название для одной записи этого типа
-			'add_new'            => 'Добавить товар', // для добавления новой записи
-			'add_new_item'       => 'Добавление товара', // заголовка у вновь создаваемой записи в админ-панели.
-			'edit_item'          => 'Редактирование товара', // для редактирования типа записи
-			'new_item'           => 'Новый товар', // текст новой записи
-			'view_item'          => 'Смотреть товар', // для просмотра записи этого типа.
-			'search_items'       => 'Искать товар', // для поиска по этим типам записи
-			'not_found'          => 'Не найдено', // если в результате поиска ничего не было найдено
-			'not_found_in_trash' => 'Не найдено в корзине', // если не было найдено в корзине\
+			'singular_name'      => 'Product', // название для одной записи этого типа
+			'add_new'            => 'Add Product', // для добавления новой записи
+			'add_new_item'       => 'Adding Product', // заголовка у вновь создаваемой записи в админ-панели.
+			'edit_item'          => 'Edit Product', // для редактирования типа записи
+			'new_item'           => 'New Product', // текст новой записи
+			'view_item'          => 'Show Product', // для просмотра записи этого типа.
+			'search_items'       => 'Find Product', // для поиска по этим типам записи
+			'not_found'          => 'Not found', // если в результате поиска ничего не было найдено
+			'not_found_in_trash' => 'Not found in the cart', // если не было найдено в корзине
 	
 		],
-		'description'         => 'Товары, доступные для заказа',
+		'description'         => 'Product for the shoping',
 		'public'              => true,
 		'show_in_menu'        => null, // показывать ли в меню админки
 		'show_in_rest'        => null, // добавить в REST API. C WP 4.7
@@ -76,24 +76,24 @@ function register_post_type_init()
 		'query_var'           => true, // Устанавливает название параметра запроса для создаваемого типа записи. False, чтобы убрать возможность запросов
 	]);	
 
-	register_post_type('order', [
+	register_post_type('custom_order', [
 		'label'  => null,
 		'labels' => [
 			'name'               => 'Order', // основное название для типа записи
-			'singular_name'      => 'Заказ', // название для одной записи этого типа
-			'add_new'            => 'Добавить заказ', // для добавления новой записи
-			'add_new_item'       => 'Добавление заказа', // заголовка у вновь создаваемой записи в админ-панели.
-			'edit_item'          => 'Редактирование заказа', // для редактирования типа записи
-			'new_item'           => 'Новый заказ', // текст новой записи
-			'view_item'          => 'Смотреть заказ', // для просмотра записи этого типа.
-			'search_items'       => 'Искать заказ', // для поиска по этим типам записи
-			'not_found'          => 'Не найдено', // если в результате поиска ничего не было найдено
-			'not_found_in_trash' => 'Не найдено в корзине', // если не было найдено в корзине\
+			'singular_name'      => 'Order', // название для одной записи этого типа
+			'add_new'            => 'Add Order', // для добавления новой записи
+			'add_new_item'       => 'Adding Order', // заголовка у вновь создаваемой записи в админ-панели.
+			'edit_item'          => 'Edit Order', // для редактирования типа записи
+			'new_item'           => 'New Order', // текст новой записи
+			'view_item'          => 'Show Order', // для просмотра записи этого типа.
+			'search_items'       => 'Find Order', // для поиска по этим типам записи
+			'not_found'          => 'Not found', // если в результате поиска ничего не было найдено
+			'not_found_in_trash' => 'Not found in the cart', // если не было найдено в корзине
 
 		],
-		'description'         => 'Оформленные заказы',
+		'description'         => 'Your products',
 		'public'              => true,
-		'show_in_menu'        => null, // показывать ли в меню админки
+		'show_in_menu'        => true, // показывать ли в меню админки
 		'show_in_rest'        => null, // добавить в REST API. C WP 4.7
 		'rest_base'           => null, // $post_type. C WP 4.7
 		'menu_position'       => null, // Позиция где должно расположится меню нового типа записи
@@ -226,7 +226,7 @@ function remove_excess_product()
 function check_product()
 {
 	$product_id = $_POST['product_id'];
-	$cookie = $_COOKIE[$product_id];
+	$cookie = $_COOKIE['cart-'.$product_id];
 	if (isset($cookie)) {
 		$cookie_data = json_decode(stripslashes($cookie), true);
 		echo json_encode($cookie_data);

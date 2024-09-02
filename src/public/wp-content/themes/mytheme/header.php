@@ -20,7 +20,7 @@
         </div>
     </header>
 
-    <!-- Модальное окно -->
+    <!-- Модальное окно корзины-->
     <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
             <div class="modal-content">
@@ -41,5 +41,4 @@
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
-        </div>
-    </div>
+        </di

@@ -1,7 +1,7 @@
 // добавить в корзину
 jQuery(function ($) {
   var productName = $(".product-title").text();
-  $(".prod-cart-btn").click(function () {
+  $(".product-actions").on("click", ".prod-cart-btn", function (e) {
     $.ajax({
       url: myajax.url,
       type: "POST",
@@ -181,18 +181,20 @@ jQuery(document).ready(function ($) {
   });
 });
 
-// // оформить заказ
-// jQuery(document).ready(function ($) {
-//   $("#cartModal").on("click", ".make-order", function (e) {
-//     $.ajax({
-//       url: myajax.url,
-//       type: "POST",
-//       data: {
-//         action: "make-order",
-//         product_id: $(this).val(),
-//         nonce: myajax.nonce,
-//       },
-//       success: function (response) {},
-//     });
-//   });
-// });
+// оформить заказ
+jQuery(document).ready(function ($) {
+  $("#cartModal").on("click", ".make-order", function (e) {
+    $.ajax({
+      url: myajax.url,
+      type: "POST",
+      data: {
+        action: "make_order",
+        product_id: $(this).val(),
+        nonce: myajax.nonce,
+      },
+      success: function (response) {
+        console.log("ok")
+      },
+    });
+  });
+});
