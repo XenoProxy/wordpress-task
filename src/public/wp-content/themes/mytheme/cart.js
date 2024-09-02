@@ -30,7 +30,7 @@ jQuery(document).ready(function ($) {
         product_id: $(this).val(),
         nonce: myajax.nonce,
       },
-      success: function (response) {},
+      success: function (response) { },
     });
   });
 });
@@ -46,7 +46,7 @@ jQuery(document).ready(function ($) {
         product_id: $(this).val(),
         nonce: myajax.nonce,
       },
-      success: function (response) {},
+      success: function (response) { },
     });
   });
 });
@@ -62,7 +62,7 @@ jQuery(document).ready(function ($) {
         product_id: $(this).val(),
         nonce: myajax.nonce,
       },
-      success: function (response) {},
+      success: function (response) { },
     });
   });
 });
@@ -78,7 +78,7 @@ jQuery(document).ready(function ($) {
         product_id: $(this).val(),
         nonce: myajax.nonce,
       },
-      success: function (response) {},
+      success: function (response) { },
     });
   });
 });
@@ -94,7 +94,7 @@ jQuery(document).ready(function ($) {
         product_id: $(this).val(),
         nonce: myajax.nonce,
       },
-      success: function (response) {},
+      success: function (response) { },
     });
   });
 });
@@ -167,7 +167,6 @@ jQuery(document).ready(function ($) {
       nonce: myajax.nonce,
     },
     success: function (response) {
-      console.log(response);
       const product = JSON.parse(response);
       var html = `<button type="button" class="btn btn-warning prod-cart-btn">To the cart</button>`;
       if (response != 0) {
@@ -183,17 +182,18 @@ jQuery(document).ready(function ($) {
 
 // оформить заказ
 jQuery(document).ready(function ($) {
-  $("#cartModal").on("click", ".make-order", function (e) {
+  $("#orderModal").on("click", ".make-order", function (e) {
     $.ajax({
       url: myajax.url,
       type: "POST",
       data: {
         action: "make_order",
-        product_id: $(this).val(),
+        fullname: $("#fullname").val(),
+        email: $("#email").val(),
         nonce: myajax.nonce,
       },
       success: function (response) {
-        console.log("ok")
+        alert(`Your order №${response} has been created!`);
       },
     });
   });
