@@ -209,6 +209,7 @@ jQuery(document).ready(function ($) {
         nonce: myajax.nonce,
       },
       success: function (response) {
+        console.log(response)
         alert(`Your order №${response} has been created!`);
       },
     });
