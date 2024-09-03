@@ -30,7 +30,7 @@ jQuery(document).ready(function ($) {
         product_id: $(this).val(),
         nonce: myajax.nonce,
       },
-      success: function (response) { },
+      success: function (response) {},
     });
   });
 });
@@ -46,7 +46,7 @@ jQuery(document).ready(function ($) {
         product_id: $(this).val(),
         nonce: myajax.nonce,
       },
-      success: function (response) { },
+      success: function (response) {},
     });
   });
 });
@@ -62,7 +62,7 @@ jQuery(document).ready(function ($) {
         product_id: $(this).val(),
         nonce: myajax.nonce,
       },
-      success: function (response) { },
+      success: function (response) {},
     });
   });
 });
@@ -78,7 +78,7 @@ jQuery(document).ready(function ($) {
         product_id: $(this).val(),
         nonce: myajax.nonce,
       },
-      success: function (response) { },
+      success: function (response) {},
     });
   });
 });
@@ -94,11 +94,10 @@ jQuery(document).ready(function ($) {
         product_id: $(this).val(),
         nonce: myajax.nonce,
       },
-      success: function (response) { },
+      success: function (response) {},
     });
   });
 });
-
 
 // отображение корзины
 jQuery(document).ready(function ($) {
@@ -114,16 +113,15 @@ jQuery(document).ready(function ($) {
         const products = JSON.parse(response);
         var total_price = 0;
         var total_count = 0;
-        var product_ids = [];
         products.forEach((product) => {
           total_price += Number(product["price"]);
           total_count += product["count"];
-          product_ids.push(product["id"]);
         });
         const html = products
           .map(
             (product) =>
               `<div class="product-cart">` +
+              `<div hidden class="product-cart-id">${product["id"]}</div>` +
               `<div class="product-cart-name">${product["product_name"]}</div>` +
               `<div class="cart-count-container">` +
               `<button class="excess-product btn btn-info" value="${product["id"]}">-</button>` +
@@ -135,8 +133,6 @@ jQuery(document).ready(function ($) {
               `</div>`
           )
           .join("");
-        var total_product_id = product_ids.toString()
-        $(".product-total-id").text(total_product_id);
         $(".products-total-count>b").text(total_count);
         $(".products-total-price>b").text(total_price + "$");
         document.querySelector(".products-cart").innerHTML = html;
@@ -187,6 +183,21 @@ jQuery(document).ready(function ($) {
 // оформить заказ
 jQuery(document).ready(function ($) {
   $("#orderModal").on("click", ".make-order", function (e) {
+    var cart_data = new Map([]);
+    $(".product-cart").each(function (index, data) {
+      var id = $(data).contents().filter(".product-cart-id").text();
+      var count = $(data).contents()
+        .filter(".cart-count-container").contents()
+        .filter(".product-cart-count").text();
+      var price = $(data).contents().filter(".product-cart-price").text();
+      cart_data.set(id, [count, price.slice(0, -1)]);
+    });
+
+    const map_to_json = (map) => {
+      return JSON.stringify(Object.fromEntries(map));
+    };
+    var json_cart_data = map_to_json(cart_data);
+
     $.ajax({
       url: myajax.url,
       type: "POST",
@@ -194,7 +205,7 @@ jQuery(document).ready(function ($) {
         action: "make_order",
         fullname: $("#fullname").val(),
         email: $("#email").val(),
-        products: $(".product-total-id").text(),
+        products: json_cart_data,
         nonce: myajax.nonce,
       },
       success: function (response) {
