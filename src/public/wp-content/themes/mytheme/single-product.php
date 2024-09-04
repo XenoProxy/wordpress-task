@@ -1,7 +1,7 @@
 <?php get_header(); ?>
 
 <div class="container">
-    <div hidden class="product-id">cart-<?php the_ID(); ?></div>
+    <div hidden class="product-id"><?php the_ID(); ?></div>
     <h1 class="product-title"><?php the_title(); ?></h1>
     <?php the_post_thumbnail(); ?>
     <div class="product-price"><?php echo get_field('price'); ?></div>

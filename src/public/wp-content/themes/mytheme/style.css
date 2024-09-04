@@ -121,3 +121,9 @@ article {
   margin: 10PX 5px;
   width: 15%;
 }
+
+.order-form {
+  display: flex;
+  flex-flow: column wrap;
+  gap: 20px;
+}

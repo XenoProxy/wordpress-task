@@ -29,6 +29,7 @@ add_action('wp_ajax_remove_from_cart', 'remove_from_cart');
 add_action('wp_ajax_add_extra_product', 'add_extra_product');
 add_action('wp_ajax_remove_excess_product', 'remove_excess_product');
 add_action('wp_ajax_check_product', 'check_product');
+add_action('wp_ajax_make_order', 'make_order');
 
 function register_my_menu()
 {
@@ -44,33 +45,24 @@ function register_post_type_init()
 		'label'  => null,
 		'labels' => [
 			'name'               => 'Product', // основное название для типа записи
-			'singular_name'      => 'Товар', // название для одной записи этого типа
-			'add_new'            => 'Добавить товар', // для добавления новой записи
-			'add_new_item'       => 'Добавление товара', // заголовка у вновь создаваемой записи в админ-панели.
-			'edit_item'          => 'Редактирование товара', // для редактирования типа записи
-			'new_item'           => 'Новый товар', // текст новой записи
-			'view_item'          => 'Смотреть товар', // для просмотра записи этого типа.
-			'search_items'       => 'Искать товар', // для поиска по этим типам записи
-			'not_found'          => 'Не найдено', // если в результате поиска ничего не было найдено
-			'not_found_in_trash' => 'Не найдено в корзине', // если не было найдено в корзине\
-			// 'parent_item_colon'  => '', // для родителей (у древовидных типов)
-			// 'menu_name'          => '____', // Название меню. По умолчанию равен name.
+			'singular_name'      => 'Product', // название для одной записи этого типа
+			'add_new'            => 'Add Product', // для добавления новой записи
+			'add_new_item'       => 'Adding Product', // заголовка у вновь создаваемой записи в админ-панели.
+			'edit_item'          => 'Edit Product', // для редактирования типа записи
+			'new_item'           => 'New Product', // текст новой записи
+			'view_item'          => 'Show Product', // для просмотра записи этого типа.
+			'search_items'       => 'Find Product', // для поиска по этим типам записи
+			'not_found'          => 'Not found', // если в результате поиска ничего не было найдено
+			'not_found_in_trash' => 'Not found in the cart', // если не было найдено в корзине
+
 		],
-		'description'         => 'Товары, доступные для заказа',
+		'description'         => 'Product for the shoping',
 		'public'              => true,
-		// 'publicly_queryable'  => null, // зависит от public
-		// 'exclude_from_search' => null, // зависит от public
-		// 'show_ui'             => null, // зависит от public
-		// 'show_in_nav_menus'   => null, // зависит от public
 		'show_in_menu'        => null, // показывать ли в меню админки
-		// 'show_in_admin_bar'   => null, // зависит от show_in_menu
 		'show_in_rest'        => null, // добавить в REST API. C WP 4.7
 		'rest_base'           => null, // $post_type. C WP 4.7
 		'menu_position'       => null, // Позиция где должно расположится меню нового типа записи
 		'menu_icon'           => null, //Ссылка на картинку, которая будет использоваться для этого меню
-		//'capability_type'   => 'post', // Строка которая будет маркером для установки прав для этого типа записи. Встроенные маркеры это: post и page
-		//'capabilities'      => 'post', // массив дополнительных прав для этого типа записи
-		//'map_meta_cap'      => null, // Ставим true чтобы включить дефолтный обработчик специальных прав
 		'hierarchical'        => false,
 		'supports'            => [  // Поля на странице создания/редактирования типа записи
 			'title',
@@ -84,12 +76,46 @@ function register_post_type_init()
 		'rewrite'             => true, // Использовать ли ЧПУ для этого типа записи
 		'query_var'           => true, // Устанавливает название параметра запроса для создаваемого типа записи. False, чтобы убрать возможность запросов
 	]);
+
+	register_post_type('custom_order', [
+		'label'  => null,
+		'labels' => [
+			'name'               => 'Order', // основное название для типа записи
+			'singular_name'      => 'Order', // название для одной записи этого типа
+			'add_new'            => 'Add Order', // для добавления новой записи
+			'add_new_item'       => 'Adding Order', // заголовка у вновь создаваемой записи в админ-панели.
+			'edit_item'          => 'Edit Order', // для редактирования типа записи
+			'new_item'           => 'New Order', // текст новой записи
+			'view_item'          => 'Show Order', // для просмотра записи этого типа.
+			'search_items'       => 'Find Order', // для поиска по этим типам записи
+			'not_found'          => 'Not found', // если в результате поиска ничего не было найдено
+			'not_found_in_trash' => 'Not found in the cart', // если не было найдено в корзине
+
+		],
+		'description'         => 'Your products',
+		'public'              => true,
+		'show_in_menu'        => true, // показывать ли в меню админки
+		'show_in_rest'        => null, // добавить в REST API. C WP 4.7
+		'rest_base'           => null, // $post_type. C WP 4.7
+		'menu_position'       => null, // Позиция где должно расположится меню нового типа записи
+		'menu_icon'           => null, //Ссылка на картинку, которая будет использоваться для этого меню
+		'hierarchical'        => false,
+		'supports'            => [  // Поля на странице создания/редактирования типа записи
+			'fullname',
+			'email',
+			'products',
+			'products_data'
+		],
+		'has_archive'         => true, // Включить поддержку страниц архивов для этого типа записей
+		'rewrite'             => true, // Использовать ли ЧПУ для этого типа записи
+		'query_var'           => true, // Устанавливает название параметра запроса для создаваемого типа записи. False, чтобы убрать возможность запросов
+	]);
 }
 
 add_action('pre_get_posts', 'hwl_home_pagesize', 1);
 function hwl_home_pagesize($query)
 {
-	if (is_admin() || ! $query->is_main_query()) {
+	if (is_admin() || !$query->is_main_query()) {
 		return;
 	}
 
@@ -122,7 +148,7 @@ function add_product_to_cart()
 		'origin_price' => $_POST['product_price'],
 		'count' => 1
 	];
-	setcookie("cart-$product_id", json_encode($data), 0, "/");
+	setcookie("cart-$product_id", json_encode($data), time() + 86400, "/");
 	wp_die();
 }
 
@@ -156,7 +182,8 @@ function remove_from_cart()
 {
 	$product_id = $_POST['product_id'];
 	unset($_COOKIE["cart-$product_id"]);
-	setcookie("cart-$product_id", '', time() - 3600, '/');
+	setcookie("cart-$product_id", '', time() - 1000);
+	setcookie("cart-$product_id", '', time() - 1000, '/');
 	wp_die();
 }
 
@@ -174,7 +201,7 @@ function add_extra_product()
 			$new_data["price"] = $cookie_data["price"] + $cookie_data["origin_price"];
 		}
 	}
-	setcookie("cart-$product_id", json_encode($new_data), 0, "/");
+	setcookie("cart-$product_id", json_encode($new_data), time() + 86400, "/");
 	wp_die();
 }
 
@@ -194,7 +221,8 @@ function remove_excess_product()
 	setcookie("cart-$product_id", json_encode($new_data), 0, "/");
 	if ($cookie_data["count"] == 1) {
 		unset($_COOKIE["cart-$product_id"]);
-		echo setcookie("cart-$product_id", '', time() - 3600, '/');
+		setcookie("cart-$product_id", '', time() - 1000);
+		setcookie("cart-$product_id", '', time() - 1000, '/');
 	}
 	wp_die();
 }
@@ -202,7 +230,7 @@ function remove_excess_product()
 function check_product()
 {
 	$product_id = $_POST['product_id'];
-	$cookie = $_COOKIE[$product_id];
+	$cookie = $_COOKIE['cart-' . $product_id];
 	if (isset($cookie)) {
 		$cookie_data = json_decode(stripslashes($cookie), true);
 		echo json_encode($cookie_data);
@@ -210,4 +238,46 @@ function check_product()
 		echo 0;
 	}
 	wp_die();
+}
+
+function make_order()
+{
+	$fullname = $_POST['fullname'];
+	$email = $_POST['email'];
+	$products_data = $_POST['products'];
+	$products_id = array_keys(json_decode(stripslashes($products_data), true));
+
+	$order_data = array(
+		'post_title'    => 'New Order',
+		'post_content'  => 'New order',
+		'post_type'   => 'custom_order',
+	);
+	$order_id = wp_insert_post($order_data);
+
+	$updated_post_arr = array(
+		'ID' => $order_id,
+		'post_title'    => "Order $order_id",
+		'post_type'   => 'custom_order',
+		'post_status'   => 'publish'
+	);
+	wp_insert_post($updated_post_arr);
+
+	update_field('fullname', $fullname, $order_id);
+	update_field('email', $email, $order_id);
+	update_field('products', $products_id, $order_id);
+	update_field('products_data', $products_data, $order_id);
+
+	unset_cart($products_id);
+
+	echo $order_id;
+	wp_die();
+}
+
+function unset_cart($products_id)
+{
+	foreach ($products_id as $id) {
+		unset($_COOKIE["cart-$id"]);
+		setcookie("cart-$id", '', time() - 1000);
+		setcookie("cart-$id", '', time() - 1000, '/');
+	}
 }

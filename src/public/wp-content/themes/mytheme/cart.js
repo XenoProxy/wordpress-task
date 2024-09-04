@@ -1,7 +1,7 @@
 // добавить в корзину
 jQuery(function ($) {
   var productName = $(".product-title").text();
-  $(".prod-cart-btn").click(function () {
+  $(".product-actions").on("click", ".prod-cart-btn", function (e) {
     $.ajax({
       url: myajax.url,
       type: "POST",
@@ -99,7 +99,6 @@ jQuery(document).ready(function ($) {
   });
 });
 
-
 // отображение корзины
 jQuery(document).ready(function ($) {
   $(".header-cart-btn").click(function () {
@@ -122,6 +121,7 @@ jQuery(document).ready(function ($) {
           .map(
             (product) =>
               `<div class="product-cart">` +
+              `<div hidden class="product-cart-id">${product["id"]}</div>` +
               `<div class="product-cart-name">${product["product_name"]}</div>` +
               `<div class="cart-count-container">` +
               `<button class="excess-product btn btn-info" value="${product["id"]}">-</button>` +
@@ -167,7 +167,6 @@ jQuery(document).ready(function ($) {
       nonce: myajax.nonce,
     },
     success: function (response) {
-      console.log(response);
       const product = JSON.parse(response);
       var html = `<button type="button" class="btn btn-warning prod-cart-btn">To the cart</button>`;
       if (response != 0) {
@@ -178,5 +177,41 @@ jQuery(document).ready(function ($) {
       }
       document.querySelector(".product-actions").innerHTML = html;
     },
+  });
+});
+
+// оформить заказ
+jQuery(document).ready(function ($) {
+  $("#orderModal").on("click", ".make-order", function (e) {
+    var cart_data = new Map([]);
+    $(".product-cart").each(function (index, data) {
+      var id = $(data).contents().filter(".product-cart-id").text();
+      var count = $(data).contents()
+        .filter(".cart-count-container").contents()
+        .filter(".product-cart-count").text();
+      var price = $(data).contents().filter(".product-cart-price").text();
+      cart_data.set(id, [count, price.slice(0, -1)]);
+    });
+
+    const map_to_json = (map) => {
+      return JSON.stringify(Object.fromEntries(map));
+    };
+    var json_cart_data = map_to_json(cart_data);
+
+    $.ajax({
+      url: myajax.url,
+      type: "POST",
+      data: {
+        action: "make_order",
+        fullname: $("#fullname").val(),
+        email: $("#email").val(),
+        products: json_cart_data,
+        nonce: myajax.nonce,
+      },
+      success: function (response) {
+        console.log(response)
+        alert(`Your order №${response} has been created!`);
+      },
+    });
   });
 });
