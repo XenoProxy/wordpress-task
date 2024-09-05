@@ -7,13 +7,27 @@
 
 register_activation_hook(__FILE__, 'check_order_status_meta');
 
+wp_enqueue_script('jquery');
+add_action('admin_enqueue_scripts', 'order_manager_admin', 25);
+
+function order_manager_admin()
+{
+    wp_enqueue_script('status', plugin_dir_url(__FILE__) . '/status.js');
+    $data = [
+        'url' => admin_url('admin-ajax.php'),
+        'nonce' => wp_create_nonce('myajax-nonce')
+    ];
+    wp_add_inline_script('status', 'const ajax_order_manager = ' . wp_json_encode($data), 'before');
+}
+
+add_action('wp_ajax_update_order_status', 'update_order_status');
+
 function check_order_status_meta()
 {
     if (!metadata_exists('post', 97, 'order_status')) {
         register_post_meta('custom_order', 'order_status', array(
             'type'              => 'array',
             'description'       => 'Order status',
-            'default'           => '',       
             'single'            => true,
             'sanitize_callback' => null,
             'auth_callback'     => null,
@@ -48,7 +62,7 @@ add_filter('manage_custom_order_posts_columns', function ($columns) {
 add_action('manage_custom_order_posts_custom_column', function ($column_name) {
     if ($column_name === 'order_status') {
 ?>
-        <select>
+        <select class="order-status-container">
             <option class="order-status cancelled">Cancelled</option>
             <option class="order-status pending">Pending</option>
             <option class="order-status completed">Completed</option>
@@ -56,3 +70,8 @@ add_action('manage_custom_order_posts_custom_column', function ($column_name) {
 <?php
     }
 });
+
+function update_order_status()
+{
+    echo "OK!";
+}
