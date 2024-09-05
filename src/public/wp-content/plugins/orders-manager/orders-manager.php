@@ -9,10 +9,17 @@ register_activation_hook(__FILE__, 'check_order_status_meta');
 
 function check_order_status_meta()
 {
-    if(!metadata_exists('post', 97, 'order_status')){
-        echo 'Создано метаполе';
-        add_post_meta(97, 'order_status', ['Cancelled', 'Pending', 'Completed']);
-    }  
+    if (!metadata_exists('post', 97, 'order_status')) {
+        register_post_meta('custom_order', 'order_status', array(
+            'type'              => 'array',
+            'description'       => 'Order status',
+            'default'           => '',       
+            'single'            => true,
+            'sanitize_callback' => null,
+            'auth_callback'     => null,
+            'show_in_rest'      => false,
+        ));
+    }
 }
 
 if (!post_type_exists('custom_order')) {
