@@ -4,6 +4,17 @@
  * Plugin Name: Orders Manager
  */
 
+
+register_activation_hook(__FILE__, 'check_order_status_meta');
+
+function check_order_status_meta()
+{
+    if(!metadata_exists('post', 97, 'order_status')){
+        echo 'Создано метаполе';
+        add_post_meta(97, 'order_status', ['Cancelled', 'Pending', 'Completed']);
+    }  
+}
+
 if (!post_type_exists('custom_order')) {
 
     add_action('admin_init', 'plugin_off');
@@ -33,7 +44,7 @@ add_action('manage_custom_order_posts_custom_column', function ($column_name) {
         <select>
             <option class="order-status cancelled">Cancelled</option>
             <option class="order-status pending">Pending</option>
-            <option class="order-status comleted">Comleted</option>
+            <option class="order-status completed">Completed</option>
         </select>
 <?php
     }
