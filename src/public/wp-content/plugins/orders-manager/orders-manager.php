@@ -26,6 +26,24 @@ add_action('wp_ajax_show_order_status', 'show_order_status');
 
 function check_order_status_meta()
 {
+    if (!post_type_exists('custom_order')) {
+
+        add_action('admin_init', 'plugin_off');
+        function plugin_off()
+        {
+            deactivate_plugins('orders-manager/orders-manager.php');
+        }
+    
+        add_action('admin_notices', 'plugin_notification');
+        function plugin_notification()
+        {
+            echo '<div class="updated">Плагин <p><strong>Orders Manager</strong> был отключен, так как тип записи custom_order не существует</p></div>';
+            if (isset($_GET['activate'])) {
+                unset($_GET['activate']);
+            }
+        }
+    }
+
     if (!metadata_exists('post', 97, 'order_status')) {
         register_post_meta('custom_order', 'order_status', array(
             'type'              => 'array',
@@ -35,24 +53,6 @@ function check_order_status_meta()
             'auth_callback'     => null,
             'show_in_rest'      => false,
         ));
-    }
-}
-
-if (!post_type_exists('custom_order')) {
-
-    add_action('admin_init', 'plugin_off');
-    function plugin_off()
-    {
-        // deactivate_plugins('orders-manager/orders-manager.php');
-    }
-
-    add_action('admin_notices', 'plugin_notification');
-    function plugin_notification()
-    {
-        echo '<div class="updated">Плагин <p><strong>Orders Manager</strong> был отключен, так как тип записи custom_order не существует</p></div>';
-        if (isset($_GET['activate'])) {
-            unset($_GET['activate']);
-        }
     }
 }
 
