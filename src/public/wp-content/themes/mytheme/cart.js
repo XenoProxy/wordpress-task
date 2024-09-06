@@ -145,7 +145,7 @@ jQuery(document).ready(function ($) {
 jQuery(document).ready(function ($) {
   $.ajax({
     url: myajax.url,
-    type: "POST",
+    type: "GET",
     data: {
       action: "get_cart_count",
       nonce: myajax.nonce,
@@ -209,7 +209,6 @@ jQuery(document).ready(function ($) {
         nonce: myajax.nonce,
       },
       success: function (response) {
-        console.log(response)
         alert(`Your order №${response} has been created!`);
       },
     });

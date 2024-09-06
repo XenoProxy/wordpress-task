@@ -21,6 +21,8 @@ function order_manager_admin()
 }
 
 add_action('wp_ajax_update_order_status', 'update_order_status');
+add_action('wp_ajax_show_order_status', 'show_order_status');
+
 
 function check_order_status_meta()
 {
@@ -81,12 +83,20 @@ add_action('manage_custom_order_posts_custom_column', function ($column_name) {
 function update_order_status()
 {
     check_ajax_referer('order-status-nonce', 'nonce_code');
-
     $order_status = $_POST['order_status'];
     $post_id = $_POST['post_id'];
+    update_post_meta($post_id, 'order_status', $order_status);
+    echo $order_status;
+    wp_die();
+}
 
-    update_post_meta( $post_id, 'order_status', $order_status);
-
-    // echo $post_id." ".$order_status;
+function show_order_status()
+{
+    $orders = get_posts(['post_type' => 'custom_order']);
+    $order_data = [];
+    foreach ($orders as $id => $order) {
+        $order_data[$id] = get_post_meta($order->ID, 'order_status', true);
+    }
+    echo json_encode($order_data);
     wp_die();
 }
