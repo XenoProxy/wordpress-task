@@ -127,3 +127,7 @@ article {
   flex-flow: column wrap;
   gap: 20px;
 }
+
+.column-id {
+  display: none;
+}

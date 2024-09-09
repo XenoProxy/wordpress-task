@@ -104,7 +104,8 @@ function register_post_type_init()
 			'fullname',
 			'email',
 			'products',
-			'products_data'
+			'products_data',
+			'order_status'
 		],
 		'has_archive'         => true, // Включить поддержку страниц архивов для этого типа записей
 		'rewrite'             => true, // Использовать ли ЧПУ для этого типа записи
