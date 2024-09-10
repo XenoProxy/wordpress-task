@@ -2,20 +2,20 @@
 
 <div class="container">
   <div hidden class="product-id"><?php the_ID(); ?></div>
-  <h1 class="product-title"><?php the_title(); ?></h1>
-  <!-- <div class="product-rating"> -->
-    <ul class="star-scale">
-      <li class="star-scale-item" value="1"></li>
-      <li class="star-scale-item" value="2"></li>
-      <li class="star-scale-item" value="3"></li>
-      <li class="star-scale-item" value="4"></li>
-      <li class="star-scale-item" value="5"></li>
-    </ul>
-  <!-- </div> -->
-  <?php the_post_thumbnail(); ?>
-  <div class="product-price"><?php echo get_field('price'); ?></div>
-  <div>Size: <?php print_r(get_field('size')[0]); ?></div>
-  <div>Color: <?php echo get_field('color'); ?></div>
+  <div class="main-product-info">
+    <h1 class="product-title"><?php the_title(); ?></h1>
+    <fieldset class="rating">
+      <input type="radio" id="star5" name="rating" value="5" /><label class="full" for="star5"></label>
+      <input type="radio" id="star4" name="rating" value="4" /><label class="full" for="star4"></label>
+      <input type="radio" id="star3" name="rating" value="3" /><label class="full" for="star3"></label>
+      <input type="radio" id="star2" name="rating" value="2" /><label class="full" for="star2"></label>
+      <input type="radio" id="star1" name="rating" value="1" /><label class="full" for="star1"></label>
+    </fieldset>
+    <?php the_post_thumbnail(); ?>
+    <div class="product-price"><?php echo get_field('price'); ?></div>
+    <div>Size: <?php print_r(get_field('size')[0]); ?></div>
+    <div>Color: <?php echo get_field('color'); ?></div>
+  </div>
   <div class="product-actions"></div>
   <div><?php the_content(); ?></div>
   <?php comments_template(); ?>

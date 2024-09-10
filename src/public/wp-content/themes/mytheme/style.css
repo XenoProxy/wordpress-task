@@ -86,7 +86,7 @@ article {
   width: 50%;
 }
 
-.products-total{
+.products-total {
   width: 49%;
 }
 
@@ -95,12 +95,12 @@ article {
   width: 10%;
 }
 
-.extra-product, 
+.extra-product,
 .excess-product {
   width: 33%;
 }
 
-.cart-count-container{
+.cart-count-container {
   display: flex;
   flex-flow: row wrap;
   align-items: baseline;
@@ -111,6 +111,12 @@ article {
 
 .remove-from-cart {
   width: 15%;
+}
+
+.main-product-info {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: flex-start;
 }
 
 .product-actions {
@@ -137,26 +143,43 @@ article {
   height: 100%;
 }
 
-ul.star-scale {
+fieldset,
+label {
   margin: 0;
   padding: 0;
 }
 
-ul.star-scale li {
-  width: 40px;
-  height: 40px;
+.rating {
+  border: none;
+  float: left;
+}
+
+.rating>input {
+  display: none;
+}
+
+.rating>label:before {
+  margin: 5px;
+  font-size: 1.25em;
+  font-family: 'Bootstrap-icons';
   display: inline-block;
-  margin-right: 5px; 
-  padding: 3px;
-}
-
-li.star-scale-item::before {  
-  font-size: 22px;
-  font-family:'Bootstrap-icons';
-  content: '\F588';
-}
-
-ul.star-scale > li.star-scale-item:hover::before {
   content: '\F586';
-  color: #ffe600;
+}
+
+.rating>label {
+  color: #ddd;
+  float: right;
+}
+
+.rating>input:checked~label,
+.rating:not(:checked)>label:hover,
+.rating:not(:checked)>label:hover~label {
+  color: #FFD700;
+}
+
+.rating>input:checked+label:hover,
+.rating>input:checked~label:hover,
+.rating>label:hover~input:checked~label,
+.rating>input:checked~label:hover~label {
+  color: #FFED85;
 }
