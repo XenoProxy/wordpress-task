@@ -5,6 +5,7 @@ require_once __DIR__.'/product-rating-widget.php';
 function theme_add_bootstrap()
 {
   wp_enqueue_style('bootstrap-cdn-css', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css');
+  wp_enqueue_style('bootstrap-icons', 'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css');
   wp_enqueue_script('bootstrap-cdn-js', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js');
 }
 
@@ -73,6 +74,7 @@ function register_post_type_init()
       'thumbnail',
       'custom-fields',
       'comments',
+      'product_rating'
     ],
     'has_archive'         => true, // Включить поддержку страниц архивов для этого типа записей
     'rewrite'             => true, // Использовать ли ЧПУ для этого типа записи

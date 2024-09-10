@@ -131,3 +131,32 @@ article {
 .column-id {
   display: none;
 }
+
+.product-rating {
+  width: 180px;
+  height: 100%;
+}
+
+ul.star-scale {
+  margin: 0;
+  padding: 0;
+}
+
+ul.star-scale li {
+  width: 40px;
+  height: 40px;
+  display: inline-block;
+  margin-right: 5px; 
+  padding: 3px;
+}
+
+li.star-scale-item::before {  
+  font-size: 22px;
+  font-family:'Bootstrap-icons';
+  content: '\F588';
+}
+
+ul.star-scale > li.star-scale-item:hover::before {
+  content: '\F586';
+  color: #ffe600;
+}
