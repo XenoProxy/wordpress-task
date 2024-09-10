@@ -15,9 +15,6 @@ class Rating_Widget extends WP_Widget
       'rating_widget',
       'Products\' Rating',
     );
-    add_action('widgets_init', function () {
-      register_widget('Rating_Widget');
-    });
   }
 
   public function widget($args, $instance)
@@ -40,5 +37,3 @@ class Rating_Widget extends WP_Widget
   {
   }
 }
-
-$rating_widget = new Rating_Widget();

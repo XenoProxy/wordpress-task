@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__.'/product-rating-widget.php';
+
 function theme_add_bootstrap()
 {
   wp_enqueue_style('bootstrap-cdn-css', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css');
@@ -296,3 +298,7 @@ function register_rating_sidebar()
     'after_title' => '</h3>'
   ));
 }
+
+add_action('widgets_init', function () {
+  register_widget('Rating_Widget');
+});
