@@ -13,27 +13,34 @@ class Rating_Widget extends WP_Widget
   {
     parent::__construct(
       'rating_widget',
-      'Products\' Rating',
+      'Products Rating',
     );
   }
 
   public function widget($args, $instance)
   {
-    echo $args['before_widget'];
+    extract($args);
+    $title = apply_filters( 'widget_title', $instance['title'] );
+    echo $before_widget;
     if (!empty($instance['title'])) {
-      echo $args['before_title'] . apply_filters('widget_title', $instance['title']) . $args['after_title'];
+      echo $before_title . $title . $after_title;
+    } else {
+      echo $before_title . 'Products Rating' . $after_title;
     }
-    echo '<div class="textwidget">';
-    echo esc_html__($instance['text'], 'text_domain');
-    echo '</div>';
-    echo $args['after_widget'];
+
+  
+    echo $after_widget;
   }
 
   public function form($instance)
   {
+  
   }
 
   public function update($new_instance, $old_instance)
   {
+    $instance          = array();
+		$instance['title'] = ( ! empty( $new_instance['title'] ) ) ? strip_tags( $new_instance['title'] ) : '';
+		return $instance;
   }
 }
