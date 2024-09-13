@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__.'/product-rating-widget.php';
+require_once __DIR__ . '/product-rating-widget.php';
 
 function theme_add_bootstrap()
 {
@@ -13,17 +13,21 @@ add_action('wp_enqueue_scripts', 'theme_add_bootstrap');
 wp_enqueue_script('jquery');
 
 wp_enqueue_style('style-css', get_template_directory_uri() . '/style.css');
-// регистрируем и планируем скрипт на вывод
+
 wp_enqueue_script('cart', get_template_directory_uri() . '/cart.js');
+wp_enqueue_script('product-rating', get_template_directory_uri() . '/product-rating.js');
 
-add_action('after_setup_theme', 'register_my_menu');
-
-// добавляем данные к зарегистрированному скрипту
-$data = [
+$cart_ajax_data = [
   'url' => admin_url('admin-ajax.php'),
   'nonce' => wp_create_nonce('myajax-nonce')
 ];
-wp_add_inline_script('cart', 'const myajax = ' . wp_json_encode($data), 'before');
+wp_add_inline_script('cart', 'const myajax = ' . wp_json_encode($cart_ajax_data), 'before');
+
+$rating_ajax_data = [
+  'url' => admin_url('admin-ajax.php'),
+  'nonce' => wp_create_nonce('rating-ajax-nonce')
+];
+wp_add_inline_script('product-rating', 'const rating_ajax = ' . wp_json_encode($rating_ajax_data), 'before');
 
 add_action('wp_ajax_product_to_cart', 'add_product_to_cart');
 add_action('wp_ajax_get_cart', 'get_cart');
@@ -34,6 +38,9 @@ add_action('wp_ajax_remove_excess_product', 'remove_excess_product');
 add_action('wp_ajax_check_product', 'check_product');
 add_action('wp_ajax_make_order', 'make_order');
 
+add_action('wp_ajax_get_star', 'get_star');
+
+add_action('after_setup_theme', 'register_my_menu');
 function register_my_menu()
 {
   register_nav_menu('header_menu', 'Header Menu');
@@ -295,7 +302,7 @@ function register_rating_sidebar()
     'name' => "Rating sidebar",
     'description' => 'Эти виджеты будут показаны в правой колонке сайта',
     'before_widget' => '<aside id="%1$s" class="widget %2$s">',
-		'after_widget'  => '</aside>',
+    'after_widget'  => '</aside>',
     'before_title' => '<h3 class="widget-title">',
     'after_title' => '</h3>'
   ));
@@ -304,3 +311,14 @@ function register_rating_sidebar()
 add_action('widgets_init', function () {
   register_widget('Rating_Widget');
 });
+
+function get_star()
+{
+  $star = $_POST['star'];
+
+  // 'product_rating'
+
+  echo $star;
+
+  wp_die();
+}
