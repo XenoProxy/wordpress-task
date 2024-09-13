@@ -5,6 +5,7 @@
   <div class="main-product-info">
     <h1 class="product-title"><?php the_title(); ?></h1>
     <fieldset class="rating">
+      <div id="average-rating"></div>
       <input type="radio" id="star5" name="rating" value="5" class="star"/><label class="full" for="star5"></label>
       <input type="radio" id="star4" name="rating" value="4" class="star"/><label class="full" for="star4"></label>
       <input type="radio" id="star3" name="rating" value="3" class="star"/><label class="full" for="star3"></label>

@@ -38,6 +38,7 @@ add_action('wp_ajax_remove_excess_product', 'remove_excess_product');
 add_action('wp_ajax_check_product', 'check_product');
 add_action('wp_ajax_make_order', 'make_order');
 
+add_action('wp_ajax_set_star', 'set_star');
 add_action('wp_ajax_get_star', 'get_star');
 
 add_action('after_setup_theme', 'register_my_menu');
@@ -312,13 +313,19 @@ add_action('widgets_init', function () {
   register_widget('Rating_Widget');
 });
 
+function set_star()
+{
+  // check_ajax_referer('rating-ajax-nonce', 'nonce_code');
+  $product_id = $_POST['id'];
+  $star = $_POST['star'];
+  update_post_meta($product_id, 'product_rating', $star);
+  wp_die();
+}
+
 function get_star()
 {
-  $star = $_POST['star'];
-
-  // 'product_rating'
-
-  echo $star;
-
+  $product_id = $_POST['id'];
+  $product_rating = get_post_meta($product_id, 'product_rating', true);
+  echo $product_rating;
   wp_die();
 }
