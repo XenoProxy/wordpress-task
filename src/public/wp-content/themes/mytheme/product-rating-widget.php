@@ -20,7 +20,13 @@ class Rating_Widget extends WP_Widget
   public function widget($args, $instance)
   {
     extract($args);
-    $title = apply_filters( 'widget_title', $instance['title'] );
+    $title = apply_filters('widget_title', $instance['title']);
+
+    $query = new WP_Query;
+    $products =  $query->query([
+      'post_type' => 'product'
+    ]);
+    
     echo $before_widget;
     if (!empty($instance['title'])) {
       echo $before_title . $title . $after_title;
@@ -28,19 +34,22 @@ class Rating_Widget extends WP_Widget
       echo $before_title . 'Products Rating' . $after_title;
     }
 
-  
+    foreach ($products as $product) {
+      echo $product->post_title. ' '. $product->product_rating. "\n";
+    }
+
+
     echo $after_widget;
   }
 
   public function form($instance)
   {
-  
   }
 
   public function update($new_instance, $old_instance)
   {
     $instance          = array();
-		$instance['title'] = ( ! empty( $new_instance['title'] ) ) ? strip_tags( $new_instance['title'] ) : '';
-		return $instance;
+    $instance['title'] = (!empty($new_instance['title'])) ? strip_tags($new_instance['title']) : '';
+    return $instance;
   }
 }
