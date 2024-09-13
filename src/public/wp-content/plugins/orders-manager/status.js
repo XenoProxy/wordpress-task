@@ -27,7 +27,7 @@ jQuery(document).ready(function ($) {
         type: "POST",
         data: {
           action: "update_order_status",
-          post_id: id,
+          order_id: id,
           order_status: select.val(),
           nonce_code: ajax_order_manager.nonce,
         },

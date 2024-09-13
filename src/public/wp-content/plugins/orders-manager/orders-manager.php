@@ -83,8 +83,8 @@ function update_order_status()
 {
   check_ajax_referer('order-status-nonce', 'nonce_code');
   $order_status = $_POST['order_status'];
-  $post_id = $_POST['post_id'];
-  update_post_meta($post_id, 'order_status', $order_status);
+  $order_id = $_POST['order_id'];
+  update_post_meta($order_id, 'order_status', $order_status);
   echo $order_status;
   wp_die();
 }
