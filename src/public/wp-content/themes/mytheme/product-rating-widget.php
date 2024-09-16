@@ -29,21 +29,25 @@ class Rating_Widget extends WP_Widget
       'meta_key' => 'product_rating',
       'order' => 'DESC'
     ]);
-    
-    echo $before_widget;
 
+    echo $before_widget;
     if (!empty($instance['title'])) {
       echo $before_title . $title . $after_title;
     } else {
-      echo $before_title . 'Products Rating' . $after_title;
+      echo $before_title . 'Top 5 Products' . $after_title;
     }
-
+    echo '<div class="rating-list">';
+    $i = 0;
     foreach ($products as $product) {
-      echo $product->post_title. ' '. $product->product_rating. "</br>";
+      echo '<div class="product-rating-row">
+          <a href="' . get_post_permalink($product->ID) . '">' . $product->post_title . '</a>
+          <span>' . $product->product_rating . '</span>
+        </div>';
+      $i++;
+      if ($i == 5) break;
     }
-
+    echo '</div>';
     echo $after_widget;
-
     wp_reset_postdata();
   }
 

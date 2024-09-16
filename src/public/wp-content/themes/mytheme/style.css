@@ -187,3 +187,10 @@ label {
 .rating>input:checked~label:hover~label {
   color: #FFED85;
 }
+
+.rating-list{
+  display: flex;
+  flex-flow: column wrap;
+  gap: 5px;
+  margin: 10px;
+}
