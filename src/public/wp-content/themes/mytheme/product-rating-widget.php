@@ -24,10 +24,14 @@ class Rating_Widget extends WP_Widget
 
     $query = new WP_Query;
     $products =  $query->query([
-      'post_type' => 'product'
+      'post_type' => 'product',
+      'orderby' => 'meta_value',
+      'meta_key' => 'product_rating',
+      'order' => 'DESC'
     ]);
     
     echo $before_widget;
+
     if (!empty($instance['title'])) {
       echo $before_title . $title . $after_title;
     } else {
@@ -35,11 +39,12 @@ class Rating_Widget extends WP_Widget
     }
 
     foreach ($products as $product) {
-      echo $product->post_title. ' '. $product->product_rating. "\n";
+      echo $product->post_title. ' '. $product->product_rating. "</br>";
     }
 
-
     echo $after_widget;
+
+    wp_reset_postdata();
   }
 
   public function form($instance)

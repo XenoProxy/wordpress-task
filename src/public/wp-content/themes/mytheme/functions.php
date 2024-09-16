@@ -319,6 +319,7 @@ function set_star()
   $product_id = $_POST['id'];
   $star = $_POST['star'];
   update_post_meta($product_id, 'product_rating', $star);
+  // echo $star;
   wp_die();
 }
 

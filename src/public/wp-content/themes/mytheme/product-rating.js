@@ -12,7 +12,6 @@ jQuery(document).ready(function ($) {
           nonce: rating_ajax.nonce,
         },
         success: function (response) {
-          console.log(response)
         },
       });
     });
@@ -30,7 +29,6 @@ jQuery(document).ready(function ($) {
       nonce_code: rating_ajax.nonce,
     },
     success: function (response) {
-      console.log(response)
       $('#average-rating').text(response);
     },
   });
