@@ -3,21 +3,25 @@
 <?php get_template_part('content', 'archive-product'); ?>
 
 <div class="product-row">
-    <?php if (have_posts()): while (have_posts()): the_post(); ?>
-            <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-                <h2><?php the_title(); ?></h2>
-                <?php the_post_thumbnail(); ?>
-                <div><?php echo get_field('price'); ?>$</div>
-                <div><?php the_excerpt(); ?></div>
-                <a class="btn btn-success" href="<?php the_permalink(); ?>">Buy</a>
-            </article>
-    <?php endwhile; endif; ?>
+  <?php if (have_posts()) : while (have_posts()) : the_post(); ?>
+      <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+        <h2><?php the_title(); ?></h2>
+        <?php the_post_thumbnail(); ?>
+        <div><?php echo get_field('price'); ?>$</div>
+        <div><?php the_excerpt(); ?></div>
+        <a class="btn btn-success" href="<?php the_permalink(); ?>">Buy</a>
+      </article>
+  <?php endwhile;
+  endif; ?>
 
-    <?php wp_reset_query(); ?>
+  <?php wp_reset_query(); ?>
 </div>
+
+<?php get_sidebar('rating_sidebar') ?>
+
 <?php the_posts_pagination(array(
-    'mid_size' => 2,
-    'end_size' => 2,
+  'mid_size' => 2,
+  'end_size' => 2,
 )); ?>
 
 <?php get_footer(); ?>
