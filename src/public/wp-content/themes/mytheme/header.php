@@ -14,11 +14,29 @@
   <header class="site-header">
     <div class="blogtitle"><?php bloginfo('name'); ?></div>
     <?php wp_nav_menu(['theme_location'  => 'header_menu']); ?>
+    <button type="button" class="btn btn-info header-register-btn" data-bs-toggle="modal" data-bs-target="#registerModal">Register</button>
+
     <div class="header-cart">
       <p class="cart-count">0</p>
       <button type="button" class="btn btn-warning header-cart-btn" data-bs-toggle="modal" data-bs-target="#cartModal">Cart</button>
     </div>
   </header>
+
+  <!-- Модальное окно регистрации-->
+  <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="registerModalLabel">Register</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Модальное окно корзины-->
   <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">

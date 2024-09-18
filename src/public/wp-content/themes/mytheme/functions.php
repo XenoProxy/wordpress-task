@@ -16,6 +16,7 @@ wp_enqueue_style('style-css', get_template_directory_uri() . '/style.css');
 
 wp_enqueue_script('cart', get_template_directory_uri() . '/cart.js');
 wp_enqueue_script('product-rating', get_template_directory_uri() . '/product-rating.js');
+wp_enqueue_script('register-login', get_template_directory_uri() . '/register-login.js');
 
 $cart_ajax_data = [
   'url' => admin_url('admin-ajax.php'),
@@ -29,6 +30,12 @@ $rating_ajax_data = [
 ];
 wp_add_inline_script('product-rating', 'const rating_ajax = ' . wp_json_encode($rating_ajax_data), 'before');
 
+$register_ajax_data = [
+  'url' => admin_url('admin-ajax.php'),
+  'nonce' => wp_create_nonce('register-login-ajax-nonce')
+];
+wp_add_inline_script('register-login', 'const register_login_ajax = ' . wp_json_encode($register_ajax_data), 'before');
+
 add_action('wp_ajax_product_to_cart', 'add_product_to_cart');
 add_action('wp_ajax_get_cart', 'get_cart');
 add_action('wp_ajax_get_cart_count', 'get_cart_count');
@@ -40,6 +47,8 @@ add_action('wp_ajax_make_order', 'make_order');
 
 add_action('wp_ajax_set_star', 'set_star');
 add_action('wp_ajax_get_star', 'get_star');
+
+add_action('wp_ajax_register_modal', 'register_modal');
 
 add_action('after_setup_theme', 'register_my_menu');
 function register_my_menu()
@@ -328,5 +337,11 @@ function get_star()
   $product_id = $_POST['id'];
   $product_rating = get_post_meta($product_id, 'product_rating', true);
   echo $product_rating;
+  wp_die();
+}
+
+function register_modal()
+{
+  echo "ok";
   wp_die();
 }
