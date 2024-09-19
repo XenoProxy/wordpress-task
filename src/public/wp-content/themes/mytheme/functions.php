@@ -49,6 +49,7 @@ add_action('wp_ajax_set_star', 'set_star');
 add_action('wp_ajax_get_star', 'get_star');
 
 add_action('wp_ajax_register_modal', 'register_modal');
+add_action('wp_ajax_login_modal', 'login_modal');
 
 add_action('after_setup_theme', 'register_my_menu');
 function register_my_menu()
@@ -342,6 +343,10 @@ function get_star()
 
 function register_modal()
 {
-  echo "ok";
+  wp_die();
+}
+
+function login_modal()
+{
   wp_die();
 }

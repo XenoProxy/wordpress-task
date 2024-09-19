@@ -15,7 +15,6 @@
     <div class="blogtitle"><?php bloginfo('name'); ?></div>
     <?php wp_nav_menu(['theme_location'  => 'header_menu']); ?>
     <button type="button" class="btn btn-info header-register-btn" data-bs-toggle="modal" data-bs-target="#registerModal">Register</button>
-
     <div class="header-cart">
       <p class="cart-count">0</p>
       <button type="button" class="btn btn-warning header-cart-btn" data-bs-toggle="modal" data-bs-target="#cartModal">Cart</button>
@@ -33,20 +32,49 @@
         <div class="modal-body">
           <form method="post">
             <p>
-              <label for="login">Your login:</label>
-              <input type="text" name="login" id="login" required>
+              <label for="login">Login:</label>
+              <input type="text" name="login" id="register-login" required>
             </p>
             <p>
-              <label for="email">Your email:</label>
-              <input type="email" name="email" id="email" required>
+              <label for="email">Email:</label>
+              <input type="email" name="email" id="register-email" required>
             </p>
             <p>
-              <label for="name">Your Fullname:</label>
-              <input type="text" name="name" id="name" required>
+              <label for="name">Fullname:</label>
+              <input type="text" name="name" id="register-name" required>
             </p>
             <p>
               <label for="password">Password:</label>
-              <input type="password" name="password" id="password" required>
+              <input type="password" name="password" id="register-password" required>
+            </p>
+            <button class="btn btn-success" type="submit">Submit</button>
+          </form>
+          <div class="modal-footer">
+            <span>Already have an account?</span>
+            <button type="button" class="btn btn-info modal-login-btn" data-bs-toggle="modal" data-bs-target="#loginModal">Log in</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Модальное окно авторизации-->
+  <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="loginModalLabel">Log in</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form method="post">
+            <p>
+              <label for="email">Email:</label>
+              <input type="email" name="email" id="login-email" required>
+            </p>
+            <p>
+              <label for="password">Password:</label>
+              <input type="password" name="password" id="login-password" required>
             </p>
             <button class="btn btn-success" type="submit">Submit</button>
           </form>
@@ -54,7 +82,7 @@
       </div>
     </div>
   </div>
-  </div>
+
 
   <!-- Модальное окно корзины-->
   <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
