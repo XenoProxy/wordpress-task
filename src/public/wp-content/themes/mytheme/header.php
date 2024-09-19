@@ -31,11 +31,29 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          
-          </div>
+          <form method="post">
+            <p>
+              <label for="login">Your login:</label>
+              <input type="text" name="login" id="login" required>
+            </p>
+            <p>
+              <label for="email">Your email:</label>
+              <input type="email" name="email" id="email" required>
+            </p>
+            <p>
+              <label for="name">Your Fullname:</label>
+              <input type="text" name="name" id="name" required>
+            </p>
+            <p>
+              <label for="password">Password:</label>
+              <input type="password" name="password" id="password" required>
+            </p>
+            <button class="btn btn-success" type="submit">Submit</button>
+          </form>
         </div>
       </div>
     </div>
+  </div>
   </div>
 
   <!-- Модальное окно корзины-->
