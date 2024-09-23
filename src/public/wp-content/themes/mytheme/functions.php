@@ -57,6 +57,40 @@ function register_my_menu()
   register_nav_menu('header_menu', 'Header Menu');
 }
 
+// отключить авторизацию по логину, но оставить авторизацю по почте
+remove_filter('authenticate', 'wp_authenticate_username_password',  20, 3);
+
+function register_modal()
+{
+  $userdata = array(
+    'user_login'    =>   $_POST['login'],
+    'user_email'   =>   $_POST['email'],
+    'user_pass'   =>   $_POST['password'],
+    'first_name'   =>   $_POST['first_name'],
+    'last_name'   =>   $_POST['last_name']
+  );
+  wp_insert_user($userdata);
+  wp_die();
+}
+
+function login_modal()
+{
+  $email = $_POST['email'];
+  $password =  $_POST['password'];
+
+  $auth =  wp_authenticate($email, $password);
+  if (is_wp_error($auth)) {
+    echo $auth->get_error_message();
+  } else {
+    // предварительно очистить все куки аутентификации и удалить кэширующие заголовки
+    nocache_headers();
+    wp_clear_auth_cookie();
+    wp_set_auth_cookie($auth->ID);
+  }
+
+  wp_die();
+}
+
 add_action('init', 'register_post_type_init');
 
 function register_post_type_init()
@@ -338,15 +372,5 @@ function get_star()
   $product_id = $_POST['id'];
   $product_rating = get_post_meta($product_id, 'product_rating', true);
   echo $product_rating;
-  wp_die();
-}
-
-function register_modal()
-{
-  wp_die();
-}
-
-function login_modal()
-{
   wp_die();
 }

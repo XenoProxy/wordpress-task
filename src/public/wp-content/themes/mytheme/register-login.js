@@ -1,14 +1,20 @@
 // регистрация
 jQuery(document).ready(function ($) {
-  $(".header-register-btn").click(function () {
+  $("#registerModal").on("click", ".register", function () {
     $.ajax({
       url: register_login_ajax.url,
       type: "POST",
       data: {
         action: "register_modal",
+        login: $("#login").val(),
+        email: $("#email").val(),
+        first_name: $("#first_name").val(),
+        last_name: $("#last_name").val(),
+        password: $("#password").val(),
         nonce: register_login_ajax.nonce,
       },
       success: function (response) {
+        alert(response)
       },
     });
   });
@@ -16,15 +22,18 @@ jQuery(document).ready(function ($) {
 
 // авторизация
 jQuery(document).ready(function ($) {
-  $(".modal-login-btn").click(function () {
+  $("#loginModal").on("click", ".login", function () {
     $.ajax({
       url: register_login_ajax.url,
       type: "POST",
       data: {
         action: "login_modal",
+        email: $("#login-email").val(),
+        password: $("#login-password").val(),
         nonce: register_login_ajax.nonce,
       },
       success: function (response) {
+        alert(response)
       },
     });
   });

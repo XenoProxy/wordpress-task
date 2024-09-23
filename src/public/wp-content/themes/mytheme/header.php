@@ -33,21 +33,25 @@
           <form method="post">
             <p>
               <label for="login">Login:</label>
-              <input type="text" name="login" id="register-login" required>
+              <input type="text" name="login" minlength="4" id="login" required>
             </p>
             <p>
               <label for="email">Email:</label>
-              <input type="email" name="email" id="register-email" required>
+              <input type="email" name="email" id="email" required>
             </p>
             <p>
-              <label for="name">Fullname:</label>
-              <input type="text" name="name" id="register-name" required>
+              <label for="first_name">First name:</label>
+              <input type="text" name="first_name" id="first_name">
+            </p>
+            <p>
+              <label for="last_name">Last name:</label>
+              <input type="text" name="last_name" id="last_name">
             </p>
             <p>
               <label for="password">Password:</label>
-              <input type="password" name="password" id="register-password" required>
+              <input type="password" name="password" minlength="8" id="password" required>
             </p>
-            <button class="btn btn-success" type="submit">Submit</button>
+            <button class="btn btn-success register" type="submit">Submit</button>
           </form>
           <div class="modal-footer">
             <span>Already have an account?</span>
@@ -76,7 +80,7 @@
               <label for="password">Password:</label>
               <input type="password" name="password" id="login-password" required>
             </p>
-            <button class="btn btn-success" type="submit">Submit</button>
+            <button class="btn btn-success login" type="submit">Submit</button>
           </form>
         </div>
       </div>
