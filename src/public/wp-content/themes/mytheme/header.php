@@ -14,7 +14,14 @@
   <header class="site-header">
     <div class="blogtitle"><?php bloginfo('name'); ?></div>
     <?php wp_nav_menu(['theme_location'  => 'header_menu']); ?>
-    <button type="button" class="btn btn-info header-register-btn" data-bs-toggle="modal" data-bs-target="#registerModal">Register</button>
+    <?php
+    if (is_user_logged_in()) {
+      $user = wp_get_current_user();
+      echo "<button class='btn btn-info'>Hello, $user->user_login</button>";
+    } else {
+      echo "<button type='button' class='btn btn-info header-register-btn' data-bs-toggle='modal' data-bs-target='#registerModal'>Register</button>";
+    }
+    ?>
     <div class="header-cart">
       <p class="cart-count">0</p>
       <button type="button" class="btn btn-warning header-cart-btn" data-bs-toggle="modal" data-bs-target="#cartModal">Cart</button>
@@ -73,12 +80,12 @@
         <div class="modal-body">
           <form method="post">
             <p>
-              <label for="email">Email:</label>
-              <input type="email" name="email" id="login-email" required>
+              <label for="login-email">Email:</label>
+              <input type="text" name="login-email" id="login-email" required>
             </p>
             <p>
-              <label for="password">Password:</label>
-              <input type="password" name="password" id="login-password" required>
+              <label for="login-password">Password:</label>
+              <input type="password" name="login-password" id="login-password" required>
             </p>
             <button class="btn btn-success login" type="submit">Submit</button>
           </form>

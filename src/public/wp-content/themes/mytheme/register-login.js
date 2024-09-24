@@ -14,7 +14,7 @@ jQuery(document).ready(function ($) {
         nonce: register_login_ajax.nonce,
       },
       success: function (response) {
-        alert(response)
+        alert(`Успешно авторизован ${response}`)
       },
     });
   });
@@ -33,7 +33,8 @@ jQuery(document).ready(function ($) {
         nonce: register_login_ajax.nonce,
       },
       success: function (response) {
-        alert(response)
+        alert(`Успешно авторизован ${response}`)
+        $(".site-header .header-register-btn").text(`Hello, ${response}`)
       },
     });
   });

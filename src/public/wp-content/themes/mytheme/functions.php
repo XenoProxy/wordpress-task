@@ -48,8 +48,10 @@ add_action('wp_ajax_make_order', 'make_order');
 add_action('wp_ajax_set_star', 'set_star');
 add_action('wp_ajax_get_star', 'get_star');
 
-add_action('wp_ajax_register_modal', 'register_modal');
-add_action('wp_ajax_login_modal', 'login_modal');
+// add_action('wp_ajax_register_modal', 'register_modal');
+// add_action('wp_ajax_login_modal', 'login_modal');
+add_action('wp_ajax_nopriv_register_modal', 'register_modal');
+add_action('wp_ajax_nopriv_login_modal', 'login_modal');
 
 add_action('after_setup_theme', 'register_my_menu');
 function register_my_menu()
@@ -59,37 +61,7 @@ function register_my_menu()
 
 // отключить авторизацию по логину, но оставить авторизацю по почте
 remove_filter('authenticate', 'wp_authenticate_username_password',  20, 3);
-
-function register_modal()
-{
-  $userdata = array(
-    'user_login'    =>   $_POST['login'],
-    'user_email'   =>   $_POST['email'],
-    'user_pass'   =>   $_POST['password'],
-    'first_name'   =>   $_POST['first_name'],
-    'last_name'   =>   $_POST['last_name']
-  );
-  wp_insert_user($userdata);
-  wp_die();
-}
-
-function login_modal()
-{
-  $email = $_POST['email'];
-  $password =  $_POST['password'];
-
-  $auth =  wp_authenticate($email, $password);
-  if (is_wp_error($auth)) {
-    echo $auth->get_error_message();
-  } else {
-    // предварительно очистить все куки аутентификации и удалить кэширующие заголовки
-    nocache_headers();
-    wp_clear_auth_cookie();
-    wp_set_auth_cookie($auth->ID);
-  }
-
-  wp_die();
-}
+add_filter('authenticate', 'wp_authenticate_email_password',     20, 3);
 
 add_action('init', 'register_post_type_init');
 
@@ -372,5 +344,43 @@ function get_star()
   $product_id = $_POST['id'];
   $product_rating = get_post_meta($product_id, 'product_rating', true);
   echo $product_rating;
+  wp_die();
+}
+
+
+function register_modal()
+{
+  $userdata = array(
+    'user_login'    =>   $_POST['login'],
+    'user_email'   =>   $_POST['email'],
+    'user_pass'   =>   $_POST['password'],
+    'first_name'   =>   $_POST['first_name'],
+    'last_name'   =>   $_POST['last_name']
+  );
+  wp_insert_user($userdata);
+
+  $creds = [
+    'user_login' => $_POST['email'],
+    'user_password' => $_POST['password'],
+    'remember' => true
+  ];
+  $user = wp_signon($creds);
+  echo $user->user_login;
+  wp_die();
+}
+
+function login_modal()
+{
+  $creds = [
+    'user_login' => $_POST['email'],
+    'user_password' => $_POST['password'],
+    'remember' => true
+  ];
+
+  $user = wp_signon($creds);
+  if (is_wp_error($user)) {
+    echo $user->get_error_message();
+  }
+  echo $user->user_login;
   wp_die();
 }
