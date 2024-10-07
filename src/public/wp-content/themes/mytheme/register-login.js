@@ -33,8 +33,12 @@ jQuery(document).ready(function ($) {
         nonce: register_login_ajax.nonce,
       },
       success: function (response) {
-        alert(`Успешно авторизован ${response}`)
-        $(".site-header .header-register-btn").text(`Hello, ${response}`)
+        var data = JSON.parse(response);
+        if (data[0] == 1){
+          $("#loginModal .err-message").html(data[1])
+        } else{
+          $(".site-header .header-register-btn").text(`Hello, ${data[1]}`)
+        }
       },
     });
   });

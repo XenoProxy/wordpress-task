@@ -95,6 +95,7 @@
               <input type="password" name="login-password" id="login-password" required>
             </p>
             <button class="btn btn-success login" type="button">Submit</button>
+            <div class='err-message'></div>
           </form>
         </div>
       </div>

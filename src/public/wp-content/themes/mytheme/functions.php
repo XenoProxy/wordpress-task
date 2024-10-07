@@ -334,7 +334,6 @@ function set_star()
   $product_id = $_POST['id'];
   $star = $_POST['star'];
   update_post_meta($product_id, 'product_rating', $star);
-  // echo $star;
   wp_die();
 }
 
@@ -378,9 +377,10 @@ function login_modal()
 
   $user = wp_signon($creds);
   if (is_wp_error($user)) {
-    echo $user->get_error_message();
+    echo json_encode([1, $user->get_error_message()]);
+  } else{
+    echo json_encode([0, $user->user_login]);
   }
-  echo $user->user_login;
   wp_die();
 }
 
