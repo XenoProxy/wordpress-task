@@ -17,7 +17,14 @@
     <?php
     if (is_user_logged_in()) {
       $user = wp_get_current_user();
-      echo "<button class='btn btn-info'>Hello, $user->user_login</button>";
+      echo "
+      <div class='dropdown'>
+      <button type='button' class='btn btn-info dropdown-toggle' id='userBtn' aria-expanded='false' data-bs-toggle='dropdown'>Hello, $user->user_login</button>
+      <ul class='dropdown-menu' aria-labelledby='userBtn'>
+        <li><button type='button' class='dropdown-logout dropdown-item'>Log out</button></li>
+      </ul>
+      </div>
+      ";
     } else {
       echo "<button type='button' class='btn btn-info header-register-btn' data-bs-toggle='modal' data-bs-target='#registerModal'>Register</button>";
     }
@@ -58,7 +65,7 @@
               <label for="password">Password:</label>
               <input type="password" name="password" minlength="8" id="password" required>
             </p>
-            <button class="btn btn-success register" type="submit">Submit</button>
+            <button class="btn btn-success register" type="button">Submit</button>
           </form>
           <div class="modal-footer">
             <span>Already have an account?</span>
@@ -87,13 +94,12 @@
               <label for="login-password">Password:</label>
               <input type="password" name="login-password" id="login-password" required>
             </p>
-            <button class="btn btn-success login" type="submit">Submit</button>
+            <button class="btn btn-success login" type="button">Submit</button>
           </form>
         </div>
       </div>
     </div>
   </div>
-
 
   <!-- Модальное окно корзины-->
   <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">

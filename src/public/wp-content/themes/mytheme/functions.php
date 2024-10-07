@@ -4,13 +4,13 @@ require_once __DIR__ . '/product-rating-widget.php';
 
 function theme_add_bootstrap()
 {
+  wp_enqueue_script('bootstrap-cdn-js', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js');
+  wp_enqueue_script('bootstrap-bundle-js', 'https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js');
   wp_enqueue_style('bootstrap-cdn-css', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css');
   wp_enqueue_style('bootstrap-icons', 'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css');
-  wp_enqueue_script('bootstrap-cdn-js', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js');
 }
-
-add_action('wp_enqueue_scripts', 'theme_add_bootstrap');
 wp_enqueue_script('jquery');
+add_action('wp_enqueue_scripts', 'theme_add_bootstrap');
 
 wp_enqueue_style('style-css', get_template_directory_uri() . '/style.css');
 
@@ -48,10 +48,9 @@ add_action('wp_ajax_make_order', 'make_order');
 add_action('wp_ajax_set_star', 'set_star');
 add_action('wp_ajax_get_star', 'get_star');
 
-// add_action('wp_ajax_register_modal', 'register_modal');
-// add_action('wp_ajax_login_modal', 'login_modal');
 add_action('wp_ajax_nopriv_register_modal', 'register_modal');
 add_action('wp_ajax_nopriv_login_modal', 'login_modal');
+add_action('wp_ajax_logout', 'logout');
 
 add_action('after_setup_theme', 'register_my_menu');
 function register_my_menu()
@@ -382,5 +381,11 @@ function login_modal()
     echo $user->get_error_message();
   }
   echo $user->user_login;
+  wp_die();
+}
+
+function logout()
+{
+  wp_logout();
   wp_die();
 }

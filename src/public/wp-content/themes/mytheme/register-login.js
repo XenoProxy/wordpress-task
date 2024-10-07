@@ -39,3 +39,20 @@ jQuery(document).ready(function ($) {
     });
   });
 });
+
+// выход
+jQuery(document).ready(function ($) {
+  $(".dropdown-menu").on("click", ".dropdown-logout", function () {
+    $.ajax({
+      url: register_login_ajax.url,
+      type: "POST",
+      data: {
+        action: "logout",
+        nonce: register_login_ajax.nonce,
+      },
+      success: function () {
+        alert(`Выход из аккаунта`)
+      },
+    });
+  });
+});
