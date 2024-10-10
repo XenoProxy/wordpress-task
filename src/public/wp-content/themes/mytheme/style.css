@@ -194,3 +194,9 @@ label {
   gap: 5px;
   margin: 10px;
 }
+
+input:required{
+  border-width: 1px;
+  border-style: solid;
+  border-color: #fa3d18;
+}

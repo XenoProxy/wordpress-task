@@ -4,18 +4,19 @@ require_once __DIR__ . '/product-rating-widget.php';
 
 function theme_add_bootstrap()
 {
+  wp_enqueue_script('bootstrap-cdn-js', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js');
+  wp_enqueue_script('bootstrap-bundle-js', 'https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js');
   wp_enqueue_style('bootstrap-cdn-css', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css');
   wp_enqueue_style('bootstrap-icons', 'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css');
-  wp_enqueue_script('bootstrap-cdn-js', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js');
 }
-
-add_action('wp_enqueue_scripts', 'theme_add_bootstrap');
 wp_enqueue_script('jquery');
+add_action('wp_enqueue_scripts', 'theme_add_bootstrap');
 
 wp_enqueue_style('style-css', get_template_directory_uri() . '/style.css');
 
 wp_enqueue_script('cart', get_template_directory_uri() . '/cart.js');
 wp_enqueue_script('product-rating', get_template_directory_uri() . '/product-rating.js');
+wp_enqueue_script('register-login', get_template_directory_uri() . '/register-login.js');
 
 $cart_ajax_data = [
   'url' => admin_url('admin-ajax.php'),
@@ -29,6 +30,12 @@ $rating_ajax_data = [
 ];
 wp_add_inline_script('product-rating', 'const rating_ajax = ' . wp_json_encode($rating_ajax_data), 'before');
 
+$register_ajax_data = [
+  'url' => admin_url('admin-ajax.php'),
+  'nonce' => wp_create_nonce('register-login-ajax-nonce')
+];
+wp_add_inline_script('register-login', 'const register_login_ajax = ' . wp_json_encode($register_ajax_data), 'before');
+
 add_action('wp_ajax_product_to_cart', 'add_product_to_cart');
 add_action('wp_ajax_get_cart', 'get_cart');
 add_action('wp_ajax_get_cart_count', 'get_cart_count');
@@ -41,11 +48,19 @@ add_action('wp_ajax_make_order', 'make_order');
 add_action('wp_ajax_set_star', 'set_star');
 add_action('wp_ajax_get_star', 'get_star');
 
+add_action('wp_ajax_nopriv_register_modal', 'register_modal');
+add_action('wp_ajax_nopriv_login_modal', 'login_modal');
+add_action('wp_ajax_logout', 'logout');
+
 add_action('after_setup_theme', 'register_my_menu');
 function register_my_menu()
 {
   register_nav_menu('header_menu', 'Header Menu');
 }
+
+// отключить авторизацию по логину, но оставить авторизацю по почте
+remove_filter('authenticate', 'wp_authenticate_username_password',  20, 3);
+add_filter('authenticate', 'wp_authenticate_email_password',     20, 3);
 
 add_action('init', 'register_post_type_init');
 
@@ -319,7 +334,6 @@ function set_star()
   $product_id = $_POST['id'];
   $star = $_POST['star'];
   update_post_meta($product_id, 'product_rating', $star);
-  // echo $star;
   wp_die();
 }
 
@@ -328,5 +342,50 @@ function get_star()
   $product_id = $_POST['id'];
   $product_rating = get_post_meta($product_id, 'product_rating', true);
   echo $product_rating;
+  wp_die();
+}
+
+
+function register_modal()
+{
+  $userdata = array(
+    'user_login'    =>   $_POST['login'],
+    'user_email'   =>   $_POST['email'],
+    'user_pass'   =>   $_POST['password'],
+    'first_name'   =>   $_POST['first_name'],
+    'last_name'   =>   $_POST['last_name']
+  );
+  wp_insert_user($userdata);
+
+  $creds = [
+    'user_login' => $_POST['email'],
+    'user_password' => $_POST['password'],
+    'remember' => true
+  ];
+  $user = wp_signon($creds);
+  echo $user->user_login;
+  wp_die();
+}
+
+function login_modal()
+{
+  $creds = [
+    'user_login' => $_POST['email'],
+    'user_password' => $_POST['password'],
+    'remember' => true
+  ];
+
+  $user = wp_signon($creds);
+  if (is_wp_error($user)) {
+    echo json_encode([1, $user->get_error_message()]);
+  } else{
+    echo json_encode([0, $user->user_login]);
+  }
+  wp_die();
+}
+
+function logout()
+{
+  wp_logout();
   wp_die();
 }

@@ -14,11 +14,93 @@
   <header class="site-header">
     <div class="blogtitle"><?php bloginfo('name'); ?></div>
     <?php wp_nav_menu(['theme_location'  => 'header_menu']); ?>
+    <?php
+    if (is_user_logged_in()) {
+      $user = wp_get_current_user();
+      echo "
+      <div class='dropdown'>
+      <button type='button' class='btn btn-info dropdown-toggle' id='userBtn' aria-expanded='false' data-bs-toggle='dropdown'>Hello, $user->user_login</button>
+      <ul class='dropdown-menu' aria-labelledby='userBtn'>
+        <li><button type='button' class='dropdown-logout dropdown-item'>Log out</button></li>
+      </ul>
+      </div>
+      ";
+    } else {
+      echo "<button type='button' class='btn btn-info header-register-btn' data-bs-toggle='modal' data-bs-target='#registerModal'>Register</button>";
+    }
+    ?>
     <div class="header-cart">
       <p class="cart-count">0</p>
       <button type="button" class="btn btn-warning header-cart-btn" data-bs-toggle="modal" data-bs-target="#cartModal">Cart</button>
     </div>
   </header>
+
+  <!-- Модальное окно регистрации-->
+  <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="registerModalLabel">Register</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form method="post">
+            <p>
+              <label for="login">Login:</label>
+              <input type="text" name="login" minlength="4" id="login" required>
+            </p>
+            <p>
+              <label for="email">Email:</label>
+              <input type="email" name="email" id="email" required>
+            </p>
+            <p>
+              <label for="first_name">First name:</label>
+              <input type="text" name="first_name" id="first_name">
+            </p>
+            <p>
+              <label for="last_name">Last name:</label>
+              <input type="text" name="last_name" id="last_name">
+            </p>
+            <p>
+              <label for="password">Password:</label>
+              <input type="password" name="password" minlength="8" id="password" required>
+            </p>
+            <button class="btn btn-success register" type="button">Submit</button>
+          </form>
+          <div class="modal-footer">
+            <span>Already have an account?</span>
+            <button type="button" class="btn btn-info modal-login-btn" data-bs-toggle="modal" data-bs-target="#loginModal">Log in</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Модальное окно авторизации-->
+  <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="loginModalLabel">Log in</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form method="post">
+            <p>
+              <label for="login-email">Email:</label>
+              <input type="text" name="login-email" id="login-email" required>
+            </p>
+            <p>
+              <label for="login-password">Password:</label>
+              <input type="password" name="login-password" id="login-password" required>
+            </p>
+            <button class="btn btn-success login" type="button">Submit</button>
+            <div class='err-message'></div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Модальное окно корзины-->
   <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
