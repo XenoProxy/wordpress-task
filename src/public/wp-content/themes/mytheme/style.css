@@ -38,6 +38,10 @@ li.menu-item a {
   text-decoration: none;
 }
 
+.hidden-menu-item{
+  display: none !important;
+}
+
 .cart-header-container,
 .header-cart {
   display: flex;
