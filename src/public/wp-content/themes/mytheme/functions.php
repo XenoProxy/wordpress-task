@@ -1,5 +1,48 @@
 <?php
 
+add_action('rest_api_init', function () {
+
+  $namespace = 'mytheme/v1';
+  $route = '/orders/(?P<email>.+)';
+  $route_params = [
+    'methods'  => 'GET',
+    'callback' => 'get_user_orders',
+    'args'     => [
+      'email' => [
+        'type'     => 'string',
+        'required' => true,
+      ],
+    ],
+    'permission_callback' => null,
+    function ($request) {
+      return is_user_logged_in();
+    },
+  ];
+
+  register_rest_route($namespace, $route, $route_params);
+});
+
+function get_user_orders(WP_REST_Request $request)
+{
+
+  $orders = get_posts([
+    'post_type' => 'custom_order',
+    'meta_key'    => 'email',
+    'meta_value'  => $request['email'],
+  ]);
+
+  if (empty($orders)) {
+    return new WP_Error('no_user_orders', 'Заказы не найдены', ['status' => 404]);
+  }
+
+  // $meta = [];
+  // foreach ($orders as $order){
+  //   $meta[] = get_post_meta($order->ID, 'products', false);
+  // }
+
+  return $orders;
+}
+
 require_once __DIR__ . '/product-rating-widget.php';
 
 function theme_add_bootstrap()
@@ -17,6 +60,7 @@ wp_enqueue_style('style-css', get_template_directory_uri() . '/style.css');
 wp_enqueue_script('cart', get_template_directory_uri() . '/cart.js');
 wp_enqueue_script('product-rating', get_template_directory_uri() . '/product-rating.js');
 wp_enqueue_script('register-login', get_template_directory_uri() . '/register-login.js');
+wp_enqueue_script('orders', get_template_directory_uri() . '/orders.js');
 
 $cart_ajax_data = [
   'url' => admin_url('admin-ajax.php'),
@@ -51,6 +95,8 @@ add_action('wp_ajax_get_star', 'get_star');
 add_action('wp_ajax_nopriv_register_modal', 'register_modal');
 add_action('wp_ajax_nopriv_login_modal', 'login_modal');
 add_action('wp_ajax_logout', 'logout');
+
+add_action('wp_ajax_get_user_orders', 'get_user_orders');
 
 add_action('after_setup_theme', 'register_my_menu');
 function register_my_menu()
@@ -392,7 +438,7 @@ function logout()
 
 add_filter('nav_menu_css_class', 'chek_for_personal_page', 10, 4);
 
-function chek_for_personal_page( $classes, $item, $args, $depth )
+function chek_for_personal_page($classes, $item, $args, $depth)
 {
   if ($item->ID === 56 && $args->theme_location === 'header_menu' && !is_user_logged_in()) {
     $classes[] = 'hidden-menu-item';
@@ -401,3 +447,9 @@ function chek_for_personal_page( $classes, $item, $args, $depth )
   return $classes;
 }
 
+// function get_orders()
+// {
+  
+
+//   wp_die();
+// }
