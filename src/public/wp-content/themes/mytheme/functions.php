@@ -378,7 +378,7 @@ function login_modal()
   $user = wp_signon($creds);
   if (is_wp_error($user)) {
     echo json_encode([1, $user->get_error_message()]);
-  } else{
+  } else {
     echo json_encode([0, $user->user_login]);
   }
   wp_die();
@@ -389,3 +389,15 @@ function logout()
   wp_logout();
   wp_die();
 }
+
+add_filter('nav_menu_css_class', 'chek_for_personal_page', 10, 4);
+
+function chek_for_personal_page( $classes, $item, $args, $depth )
+{
+  if ($item->ID === 56 && $args->theme_location === 'header_menu' && !is_user_logged_in()) {
+    $classes[] = 'hidden-menu-item';
+  }
+
+  return $classes;
+}
+
