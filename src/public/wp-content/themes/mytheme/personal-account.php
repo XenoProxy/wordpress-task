@@ -21,6 +21,8 @@ Template Name: My Personal Account Page
       <span class="user-info-value"><?php echo wp_get_current_user()->user_email ?></span>
     </div>
   </div>
+  <h3>Your Orders</h3>
+  <table class="user-orders"></table>
 </div>
 
 <?php get_footer(); ?>

@@ -35,12 +35,25 @@ function get_user_orders(WP_REST_Request $request)
     return new WP_Error('no_user_orders', 'Заказы не найдены', ['status' => 404]);
   }
 
-  // $meta = [];
-  // foreach ($orders as $order){
-  //   $meta[] = get_post_meta($order->ID, 'products', false);
-  // }
+  if (wp_get_current_user()->user_email === $request['email']) {
+    return new WP_Error('wrong_user_email', 'Неверный email', ['status' => 404]);
+  }
 
-  return $orders;
+  $order_data = [];
+
+  foreach ($orders as $order) {
+    $order_data['order_id'] = $order->ID;
+    $order_products_id = get_post_meta($order->ID, 'products', false);
+    $data = get_post_meta($order->ID, 'products_data', false);
+    $order_data['order_products_data'] = $data;
+    // foreach ($order_products_id as $product_id){
+    //   // $product = get_post($product_id);
+    //   $order_data['order_product_name'] = get_post((int)$product_id);
+    // }
+    // $order_data['order_products_data'] = $order_products_id;
+  }
+
+  return var_dump($order_data);
 }
 
 require_once __DIR__ . '/product-rating-widget.php';
@@ -446,10 +459,3 @@ function chek_for_personal_page($classes, $item, $args, $depth)
 
   return $classes;
 }
-
-// function get_orders()
-// {
-  
-
-//   wp_die();
-// }

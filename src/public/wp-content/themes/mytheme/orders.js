@@ -5,16 +5,21 @@ jQuery(function ($) {
     type: "GET",
     success: function (response) {      
       console.log(response)
-      // const html = orders
-      //   .map(
-      //     (order) =>
-      //       `<div class="user-orders">` +
-      //       `<div hidden class="order-id">${order["ID"]}</div>` +
-      //       `<div class="order-price">${order["post_type"]}$</div>` +
-      //       `</div>`
-      //   )
-      //   .join("");
-      // document.querySelector(".page-content").innerHTML = html;
+      const html = response
+        .map(
+          (order_data) =>
+            `<tr>`+
+            `<td>ID</td>` +
+            `<td>type</td>` +
+            `</tr>` +
+            `<tr>`+
+            `<td class="order-id">${order_data["order_id"]}</td>` +
+            `<td class="order-product">${order_data['order_products_data']}</td>` +
+            // `<td class="order-product">${order_data["post_type"]}</td>` +
+            `</tr>`
+        )
+        .join("");
+      document.querySelector(".user-orders").innerHTML = html;
     },
   });
 });
